@@ -58,9 +58,6 @@ $(CMAPDST)/to-unicode-Adobe-Korea1.marshal.gz: $(CMAPDST)
 test: cmap
 	$(PYTHON) -m pdfminer.arcfour
 	$(PYTHON) -m pdfminer.ascii85
-	$(PYTHON) -m pdfminer.lzw
-	$(PYTHON) -m pdfminer.rijndael
-	$(PYTHON) -m pdfminer.runlength
 	$(PYTHON) -m pdfminer.ccitt
-	$(PYTHON) -m pdfminer.psparser
+	$(PYTHON) -m unittest
 	cd samples && $(MAKE) test
