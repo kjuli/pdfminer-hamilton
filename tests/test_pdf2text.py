@@ -1,15 +1,13 @@
 import unittest
-import sys
-import filecmp
 from weakref import ref
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.converter import TextConverter
-from tools.pdf2txt import commandlineArgumentHandler, pdf_conversion
+from tools.pdf2txt import commandlineArgumentHandler, pdfConversion
 
 
 class TestPdf2text(unittest.TestCase):
-    def test_pdf_conversion(self):
+    def test_pdfConversion(self):
 
         # fname, rsrcmgr, device, pagenos, maxpages, password, caching, rotation
 
@@ -29,7 +27,7 @@ class TestPdf2text(unittest.TestCase):
         password = b""
         caching = True
         rotation = 0
-        pdf_conversion(
+        pdfConversion(
             "samples/simple1.pdf",
             rsrcmgr,
             device,

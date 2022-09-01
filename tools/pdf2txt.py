@@ -12,7 +12,7 @@ from pdfminer.layout import LAParams
 from pdfminer.image import ImageWriter
 
 
-def pdf_conversion(
+def pdfConversion(
     fname, rsrcmgr, device, pagenos, maxpages, password, caching, rotation
 ):
     with open(fname, "rb") as fp:
@@ -132,7 +132,7 @@ def commandlineArgumentHandler(argv, usage):
         usage=usage,
     )
     for fname in args:
-        pdf_conversion(
+        pdfConversion(
             fname,
             rsrcmgr=rsrcmgr,
             device=device,
