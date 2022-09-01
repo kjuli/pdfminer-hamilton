@@ -3,7 +3,7 @@
 RM=rm -f
 CMP=:
 ECHO=echo
-PYTHON=python
+PYTHON=python3
 
 PDF2TXT=PYTHONPATH=.. $(PYTHON) ../tools/pdf2txt.py -p1 -V
 
