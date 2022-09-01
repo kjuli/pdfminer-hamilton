@@ -26,4 +26,4 @@ jobs:
         continue-on-error: true
       - name: Test code
         run: |
-          unittest
+          make test
