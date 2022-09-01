@@ -3,7 +3,7 @@
 
 PACKAGE=pdfminer
 
-PYTHON=python -B
+PYTHON=python3 -B
 TWINE=twine
 RM=rm -f
 CP=cp -f
@@ -12,7 +12,7 @@ MKDIR=mkdir
 all:
 
 install:
-	$(PYTHON) setup.py install --home=$(HOME)
+	$(PYTHON) setup.py install 
 
 clean:
 	-$(PYTHON) setup.py clean
