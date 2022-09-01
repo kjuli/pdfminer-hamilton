@@ -1,0 +1,5 @@
+Pillow==9.2.0
+pycryptodome==3.15.0
+pygame==2.1.2
+setuptools==45.2.0
+# created from pipreqs
