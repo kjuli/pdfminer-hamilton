@@ -1,5 +1,4 @@
 # Start of https://mrkandreev.name/snippets/gitignore-generator/#Python,JetBrains,VisualStudioCode
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
