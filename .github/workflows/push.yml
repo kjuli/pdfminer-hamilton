@@ -23,7 +23,6 @@ jobs:
       - name: Lint with flake8
         run: |
           flake8 .
-        continue-on-error: true
       - name: Test code
         run: |
           make test
