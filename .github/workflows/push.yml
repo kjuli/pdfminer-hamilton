@@ -20,15 +20,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
           pip install -r requirements.txt
-  lint:
-    needs: install
-    steps:
       - name: Lint with flake8
         run: |
-          flake8 .
-  test:
-    needs: install
-    steps:
+          flake8 --exit-zero .
       - name: Test code
         run: |
           make test
