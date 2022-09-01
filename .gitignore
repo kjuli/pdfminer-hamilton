@@ -4,6 +4,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+.vscode
+tests/simple_test_result.txt
 # C extensions
 *.so
 
