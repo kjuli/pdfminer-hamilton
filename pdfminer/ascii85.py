@@ -23,31 +23,27 @@ def ascii85decode(data):
 
     The sample string is taken from:
       http://en.wikipedia.org/w/index.php?title=Ascii85
-
-    >>> ascii85decode(b'9jqo^BlbD-BleB1DJ+*+F(f,q')
-    b'Man is distinguished'
-    >>> ascii85decode(b'E,9)oF*2M7/c~>')
-    b'pleasure.'
     """
     n = b = 0
     out = b''
     for c in data:
-        if 33 <= c and c <= 117: # b'!' <= c and c <= b'u'
+        if 33 <= c and c <= 117:  # b'!' <= c and c <= b'u'
             n += 1
             b = b*85+(c-33)
             if n == 5:
                 out += struct.pack('>L', b)
                 n = b = 0
-        elif c == 122: # b'z'
+        elif c == 122:  # b'z'
             assert n == 0
             out += b'\0\0\0\0'
-        elif c == 126: # b'~'
+        elif c == 126:  # b'~'
             if n:
                 for _ in range(5-n):
                     b = b*85+84
                 out += struct.pack('>L', b)[:n-1]
             break
     return out
+
 
 # asciihexdecode(data)
 hex_re = re.compile(r'([a-f\d]{2})', re.IGNORECASE)
@@ -63,22 +59,10 @@ def asciihexdecode(data):
     EOD. Any other characters will cause an error. If the filter encounters
     the EOD marker after reading an odd number of hexadecimal digits, it
     will behave as if a 0 followed the last digit.
-
-    >>> asciihexdecode(b'61 62 2e6364   65')
-    b'ab.cde'
-    >>> asciihexdecode(b'61 62 2e6364   657>')
-    b'ab.cdep'
-    >>> asciihexdecode(b'7>')
-    b'p'
     """
     data = data.decode('latin1')
-    out = [ int(hx,16) for hx in  hex_re.findall(data) ]
+    out = [int(hx, 16) for hx in hex_re.findall(data)]
     m = trail_re.search(data)
     if m:
-        out.append(int(m.group(1),16) << 4)
+        out.append(int(m.group(1), 16) << 4)
     return bytes(out)
-
-
-if __name__ == '__main__':
-    import doctest
-    print('pdfminer.ascii85', doctest.testmod())
