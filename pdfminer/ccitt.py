@@ -10,10 +10,8 @@
 #     "FACSIMILE CODING SCHEMES AND CODING CONTROL FUNCTIONS FOR GROUP 4 FACSIMILE APPARATUS"
 
 
-import unittest
 import sys
 import array
-import tests.test_ccitt
 
 
 # BitParser
@@ -567,7 +565,7 @@ def ccittfaxdecode(data, params):
 # test
 def main(argv):
     if not argv[1:]:
-        return unittest.main(module=tests.test_ccitt)
+        return
 
     class Parser(CCITTG4Parser):
 
