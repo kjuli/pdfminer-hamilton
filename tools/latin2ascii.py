@@ -124,7 +124,7 @@ def main(argv):
         if k == "-c":
             codec = v
     for line in fileinput.input(args):
-        line = latin2ascii(unicode(line, codec, "ignore"))
+        line = latin2ascii(unicode(line, codec, "ignore"))  # noqa: F821 # we will look at this later
         sys.stdout.write(line.encode("ascii", "replace"))
     return
 

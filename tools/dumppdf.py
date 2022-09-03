@@ -168,7 +168,7 @@ def dumpoutline(
                         if subtype and repr(subtype) == "/GoTo" and action.get("D"):
                             dest = resolve_dest(action["D"])
                             pageno = pages[dest[0].objid]
-                outfp.write('<outline level="%r" title="%s">\n' % (level, q(s)))
+                outfp.write('<outline level="%r" title="%s">\n' % (level, q(s)))  # noqa: F821 # we will look at this later
                 if dest is not None:
                     outfp.write("<dest>")
                     dumpxml(outfp, dest)

@@ -1,5 +1,4 @@
 import unittest
-from weakref import ref
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.converter import TextConverter
