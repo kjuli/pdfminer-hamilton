@@ -7,8 +7,8 @@ This code is in the public domain.
 """
 
 
-##  Arcfour
-##
+#  Arcfour
+#
 class Arcfour:
 
     """
@@ -36,19 +36,21 @@ class Arcfour:
         s = self.s
         r = []
         for c in data:
-            i = (i+1) % 256
-            j = (j+s[i]) % 256
+            i = (i + 1) % 256
+            j = (j + s[i]) % 256
             (s[i], s[j]) = (s[j], s[i])
-            k = s[(s[i]+s[j]) % 256]
+            k = s[(s[i] + s[j]) % 256]
             r.append(c ^ k)
         (self.i, self.j) = (i, j)
         return bytes(r)
 
     encrypt = decrypt = process
 
+
 new = Arcfour
 
 # test
-if __name__ == '__main__':
+if __name__ == "__main__":
     import doctest
-    print('pdfminer.arcfour:', doctest.testmod())
+
+    print("pdfminer.arcfour:", doctest.testmod())

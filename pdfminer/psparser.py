@@ -6,8 +6,8 @@ from .utils import choplist
 STRICT = 0
 
 
-##  PS Exceptions
-##
+#  PS Exceptions
+#
 class PSException(Exception):
     pass
 
@@ -28,11 +28,11 @@ class PSValueError(PSException):
     pass
 
 
-##  Basic PostScript Types
-##
+#  Basic PostScript Types
+#
 
-##  PSObject
-##
+#  PSObject
+#
 class PSObject:
 
     """Base class for all PS or PDF-related data types."""
@@ -40,8 +40,8 @@ class PSObject:
     pass
 
 
-##  PSLiteral
-##
+#  PSLiteral
+#
 class PSLiteral(PSObject):
 
     """A class that represents a PostScript literal.
@@ -63,8 +63,8 @@ class PSLiteral(PSObject):
         return "/%r" % self.name
 
 
-##  PSKeyword
-##
+#  PSKeyword
+#
 class PSKeyword(PSObject):
 
     """A class that represents a PostScript keyword.
@@ -85,8 +85,8 @@ class PSKeyword(PSObject):
         return self.name.decode("ascii")
 
 
-##  PSSymbolTable
-##
+#  PSSymbolTable
+#
 class PSSymbolTable:
 
     """A utility class for storing PSLiteral/PSKeyword objects.
@@ -138,8 +138,8 @@ def keyword_name(x):
     return x.name
 
 
-##  PSBaseParser
-##
+#  PSBaseParser
+#
 EOL = re.compile(rb"[\r\n]")
 SPC = re.compile(rb"\s")
 NONSPC = re.compile(rb"\S")
@@ -514,8 +514,8 @@ class PSBaseParser:
         return token
 
 
-##  PSStackParser
-##
+#  PSStackParser
+#
 class PSStackParser(PSBaseParser):
     def __init__(self, fp):
         PSBaseParser.__init__(self, fp)

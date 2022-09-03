@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-##
-##  WebApp class runner
-##
-##  usage:
-##    $ runapp.py pdf2html.cgi
-##
+#
+#  WebApp class runner
+#
+#  usage:
+#    $ runapp.py pdf2html.cgi
+#
 
 import sys
 import urllib
@@ -12,8 +12,9 @@ from httplib import responses
 from BaseHTTPServer import HTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 
-##  WebAppHandler
-##
+
+#  WebAppHandler
+#
 class WebAppHandler(SimpleHTTPRequestHandler):
 
     APP_CLASS = None
@@ -37,7 +38,7 @@ class WebAppHandler(SimpleHTTPRequestHandler):
         else:
             script, rest = rest, ""
         scriptname = "/" + script
-        scriptfile = self.translate_path(scriptname)
+        # scriptfile = self.translate_path(scriptname)
         env = {}
         env["SERVER_SOFTWARE"] = self.version_string()
         env["SERVER_NAME"] = self.server.server_name
@@ -92,7 +93,8 @@ class WebAppHandler(SimpleHTTPRequestHandler):
 
 # main
 def main(argv):
-    import getopt, imp
+    import getopt
+    import imp
 
     def usage():
         print("usage: %s [-h host] [-p port] [-n name] module.class" % argv[0])

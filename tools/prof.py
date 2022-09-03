@@ -3,7 +3,8 @@ import sys
 
 
 def prof_main(argv):
-    import hotshot, hotshot.stats
+    import hotshot
+    import hotshot.stats
 
     def usage():
         print("usage: %s module.function [args ...]" % argv[0])

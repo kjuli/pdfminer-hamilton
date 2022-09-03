@@ -6,7 +6,8 @@
 #  options:
 #    -i objid : object id
 #
-import sys, os.path, re
+import sys
+import os.path
 from io import StringIO
 from pdfminer.psparser import PSKeyword, PSLiteral, LIT
 from pdfminer.pdfparser import PDFParser
