@@ -12,7 +12,7 @@ from pdfminer.layout import LAParams
 from pdfminer.image import ImageWriter
 
 
-def pdfConversion(
+def pdfconversion(
     fname, rsrcmgr, device, pagenos, maxpages, password, caching, rotation
 ):
     with open(fname, "rb") as fp:
@@ -30,7 +30,7 @@ def pdfConversion(
     return
 
 
-def commandlineArgumentHandler(argv, usage):
+def commandlineargumenthandler(argv, usage):
     try:
         (opts, args) = getopt.getopt(argv[1:], "dP:o:t:O:c:s:R:Y:p:m:SCnAVM:W:L:F:")
     except getopt.GetoptError:
@@ -119,7 +119,7 @@ def commandlineArgumentHandler(argv, usage):
         outfp = open(outfile, "w", encoding=encoding)
     else:
         outfp = sys.stdout
-    device = determineConverterDevice(
+    device = determineconverterdevice(
         outtype=outtype,
         rsrcmgr=rsrcmgr,
         outfp=outfp,
@@ -132,7 +132,7 @@ def commandlineArgumentHandler(argv, usage):
         usage=usage,
     )
     for fname in args:
-        pdfConversion(
+        pdfconversion(
             fname,
             rsrcmgr=rsrcmgr,
             device=device,
@@ -147,7 +147,7 @@ def commandlineArgumentHandler(argv, usage):
     return
 
 
-def determineConverterDevice(
+def determineconverterdevice(
     outtype,
     rsrcmgr,
     outfp,
@@ -197,7 +197,7 @@ def main(argv):
         )
         return 100
 
-    commandlineArgumentHandler(argv, usage)
+    commandlineargumenthandler(argv, usage)
 
 
 if __name__ == "__main__":

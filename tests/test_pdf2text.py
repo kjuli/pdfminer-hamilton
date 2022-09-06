@@ -2,12 +2,12 @@ import unittest
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.converter import TextConverter
-from tools.pdf2txt import commandlineArgumentHandler, pdfConversion
+from tools.pdf2txt import commandlineargumenthandler, pdfconversion
 
 
 class TestPdf2text(unittest.TestCase):
     # Simple conversion test of a pdf to txt and comparing output to sample txt ref.
-    def test_pdfConversion(self):
+    def test_pdfconversion(self):
 
         rsrcmgr = PDFResourceManager(caching=False)
         imagewriter = None
@@ -25,7 +25,7 @@ class TestPdf2text(unittest.TestCase):
         password = b""
         caching = True
         rotation = 0
-        pdfConversion(
+        pdfconversion(
             "samples/simple1.pdf",
             rsrcmgr,
             device,
@@ -45,20 +45,20 @@ class TestPdf2text(unittest.TestCase):
         return
 
     # Test calling commandlineArgumentHandler with no args
-    def test_commandlineArgumentHandlerNoArgs(self):
+    def test_commandlineargumenthandlernoargs(self):
         def usage():
             return 100
 
-        self.assertEqual(commandlineArgumentHandler([], usage=usage), 100)
+        self.assertEqual(commandlineargumenthandler([], usage=usage), 100)
         return
 
     # Test correct behaviour of commandlineArgumentHandler
-    def test_commandlineArgumentHandlerValid(self):
+    def test_commandlineargumenthandlervalid(self):
         def usage():
             return 100
 
         self.assertEqual(
-            commandlineArgumentHandler(["null", "samples/simple1.pdf"], usage=usage),
+            commandlineargumenthandler(["null", "samples/simple1.pdf"], usage=usage),
             None,
         )
         return
