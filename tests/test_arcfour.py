@@ -6,6 +6,7 @@ from pdfminer.arcfour import Arcfour
 class TestArcfour(unittest.TestCase):
 
     def test_1(self):
+        """Test arcfour encryption"""
         self.assertEqual(Arcfour(b'Key').process(
             b'Plaintext').hex(), 'bbf316e8d940af0ad3')
         self.assertEqual(Arcfour(b'Wiki').process(
