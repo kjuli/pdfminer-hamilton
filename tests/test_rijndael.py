@@ -9,7 +9,8 @@ class TestRijndaelDecryptor(unittest.TestCase):
     ciphertext = bytes.fromhex("d8f532538289ef7d06b506a4fd5be9c9")
     plaintext = "506812a45f08c889b97f5980038b8359"
 
-    def test_encryption(self):
+    # Test Rijndael decryption
+    def test_decryption(self):
         decryptor = RijndaelDecryptor(self.key, 128)
         assert self.plaintext == decryptor.decrypt(self.ciphertext).hex()
 
@@ -20,6 +21,7 @@ class TestRijndaelEncryptor(unittest.TestCase):
     plaintext = bytes.fromhex("506812a45f08c889b97f5980038b8359")
     encrypted = "d8f532538289ef7d06b506a4fd5be9c9"
 
+    # Test Rijndael encryption
     def test_encryption(self):
         encryptor = RijndaelEncryptor(self.key, 128)
         assert self.encrypted == encryptor.encrypt(self.plaintext).hex()

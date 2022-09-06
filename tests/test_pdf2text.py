@@ -6,9 +6,8 @@ from tools.pdf2txt import commandlineArgumentHandler, pdfConversion
 
 
 class TestPdf2text(unittest.TestCase):
+    # Simple conversion test of a pdf to txt and comparing output to sample txt ref.
     def test_pdfConversion(self):
-
-        # fname, rsrcmgr, device, pagenos, maxpages, password, caching, rotation
 
         rsrcmgr = PDFResourceManager(caching=False)
         imagewriter = None
@@ -45,6 +44,7 @@ class TestPdf2text(unittest.TestCase):
         result_file.close()
         return
 
+    # Test calling commandlineArgumentHandler with no args
     def test_commandlineArgumentHandlerNoArgs(self):
         def usage():
             return 100
@@ -52,7 +52,8 @@ class TestPdf2text(unittest.TestCase):
         self.assertEqual(commandlineArgumentHandler([], usage=usage), 100)
         return
 
-    def test_commandlineArgumentHandlerInvalidOuttype(self):
+    # Test correct behaviour of commandlineArgumentHandler
+    def test_commandlineArgumentHandlerValid(self):
         def usage():
             return 100
 

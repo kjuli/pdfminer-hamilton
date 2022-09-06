@@ -3,6 +3,7 @@ from pdfminer.runlength import rldecode
 
 
 class TestRunlength(unittest.TestCase):
+    # Test runlength decode
     def test_rldecode(self):
         TESTDATA = b"\x05123456\xfa7\x04abcde\x80junk"
         decoded = rldecode(TESTDATA)
