@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-#
-#  latin2ascii.py - converts latin1 characters into ascii.
-#
+
+"""latin2ascii.py - converts latin1 characters into ascii."""
+
 
 import sys
 
-""" Mappings from Latin-1 characters to ASCII.
+"""
+Mappings from Latin-1 characters to ASCII.
 
 This is an in-house mapping table for some Latin-1 characters
 (acutes, umlauts, etc.) to ASCII strings.
@@ -102,10 +103,12 @@ LATIN2ASCII = {
 
 
 def latin2ascii(s):
-    return "".join(LATIN2ASCII.get(ord(c), c) for c in s)
+    """Convert latin1 string to ascii code."""
+    return ''.join(LATIN2ASCII.get(ord(c), c) for c in s)
 
 
 def main(argv):
+    """Run main function."""
     import getopt
     import fileinput
 
@@ -119,15 +122,16 @@ def main(argv):
         return usage()
     if not args:
         return usage()
-    codec = "utf-8"
+    codec = 'utf-8'
     for (k, v) in opts:
-        if k == "-c":
+        if k == '-c':
             codec = v
     for line in fileinput.input(args):
-        line = latin2ascii(unicode(line, codec, "ignore"))  # noqa: F821 # we will look at this later
-        sys.stdout.write(line.encode("ascii", "replace"))
+        line = latin2ascii(str(line.encode(), codec, 'ignore'))
+        sys.stdout.write(line.encode(
+            codec, 'ignore').decode('ascii', 'replace'))
     return
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main(sys.argv))

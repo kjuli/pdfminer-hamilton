@@ -56,6 +56,10 @@ $(CMAPDST)/to-unicode-Adobe-Korea1.marshal.gz: $(CMAPDST)
 		$(CMAPDST) Adobe-Korea1 $(CMAPSRC)/cid2code_Adobe_Korea1.txt
 
 test: cmap
+	$(PYTHON) -m pdfminer.lzw
+	$(PYTHON) -m pdfminer.rijndael
+	$(PYTHON) -m pdfminer.runlength
+	$(PYTHON) -m pdfminer.psparser
 	$(PYTHON) -m pdfminer.arcfour
 	$(PYTHON) -m pdfminer.ascii85
 	$(PYTHON) -m pdfminer.ccitt
