@@ -1,5 +1,6 @@
 import unittest
-from pdfminer.ascii85 import *
+from pdfminer.ascii85 import ascii85decode
+from pdfminer.ascii85 import asciihexdecode
 #  Simplistic Test cases
 
 
