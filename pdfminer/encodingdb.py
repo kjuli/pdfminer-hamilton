@@ -5,11 +5,11 @@ from .glyphlist import glyphname2unicode
 from .latin_enc import ENCODING
 
 
-STRIP_NAME = re.compile(r'[0-9]+')
+STRIP_NAME = re.compile(r"[0-9]+")
 
 
-##  name2unicode
-##
+#  name2unicode
+#
 def name2unicode(name):
     """Converts Adobe glyph names to Unicode numbers."""
     if name in glyphname2unicode:
@@ -20,8 +20,8 @@ def name2unicode(name):
     return chr(int(m.group(0)))
 
 
-##  EncodingDB
-##
+#  EncodingDB
+#
 class EncodingDB:
 
     std2unicode = {}
@@ -40,10 +40,10 @@ class EncodingDB:
             pdf2unicode[pdf] = c
 
     encodings = {
-        'StandardEncoding': std2unicode,
-        'MacRomanEncoding': mac2unicode,
-        'WinAnsiEncoding': win2unicode,
-        'PDFDocEncoding': pdf2unicode,
+        "StandardEncoding": std2unicode,
+        "MacRomanEncoding": mac2unicode,
+        "WinAnsiEncoding": win2unicode,
+        "PDFDocEncoding": pdf2unicode,
     }
 
     @classmethod

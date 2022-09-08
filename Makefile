@@ -3,7 +3,7 @@
 
 PACKAGE=pdfminer
 
-PYTHON=python -B
+PYTHON=python3 -B
 TWINE=twine
 RM=rm -f
 CP=cp -f
@@ -12,7 +12,7 @@ MKDIR=mkdir
 all:
 
 install:
-	$(PYTHON) setup.py install --home=$(HOME)
+	$(PYTHON) setup.py install 
 
 clean:
 	-$(PYTHON) setup.py clean
@@ -60,4 +60,8 @@ test: cmap
 	$(PYTHON) -m pdfminer.rijndael
 	$(PYTHON) -m pdfminer.runlength
 	$(PYTHON) -m pdfminer.psparser
+	$(PYTHON) -m pdfminer.arcfour
+	$(PYTHON) -m pdfminer.ascii85
+	$(PYTHON) -m pdfminer.ccitt
+	$(PYTHON) -m unittest
 	cd samples && $(MAKE) test

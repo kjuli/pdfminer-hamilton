@@ -25,29 +25,29 @@ def ascii85decode(data):
       http://en.wikipedia.org/w/index.php?title=Ascii85
     """
     n = b = 0
-    out = b''
+    out = b""
     for c in data:
         if 33 <= c and c <= 117:  # b'!' <= c and c <= b'u'
             n += 1
-            b = b*85+(c-33)
+            b = b * 85 + (c - 33)
             if n == 5:
-                out += struct.pack('>L', b)
+                out += struct.pack(">L", b)
                 n = b = 0
         elif c == 122:  # b'z'
             assert n == 0
-            out += b'\0\0\0\0'
+            out += b"\0\0\0\0"
         elif c == 126:  # b'~'
             if n:
-                for _ in range(5-n):
-                    b = b*85+84
-                out += struct.pack('>L', b)[:n-1]
+                for _ in range(5 - n):
+                    b = b * 85 + 84
+                out += struct.pack(">L", b)[: n - 1]
             break
     return out
 
 
 # asciihexdecode(data)
-hex_re = re.compile(r'([a-f\d]{2})', re.IGNORECASE)
-trail_re = re.compile(r'^(?:[a-f\d]{2}|\s)*([a-f\d])[\s>]*$', re.IGNORECASE)
+hex_re = re.compile(r"([a-f\d]{2})", re.IGNORECASE)
+trail_re = re.compile(r"^(?:[a-f\d]{2}|\s)*([a-f\d])[\s>]*$", re.IGNORECASE)
 
 
 def asciihexdecode(data):
@@ -60,7 +60,7 @@ def asciihexdecode(data):
     the EOD marker after reading an odd number of hexadecimal digits, it
     will behave as if a 0 followed the last digit.
     """
-    data = data.decode('latin1')
+    data = data.decode("latin1")
     out = [int(hx, 16) for hx in hex_re.findall(data)]
     m = trail_re.search(data)
     if m:

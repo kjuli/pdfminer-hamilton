@@ -13,14 +13,14 @@ from .pdftypes import int_value
 from .pdftypes import dict_value
 
 
-##  Exceptions
-##
+#  Exceptions
+#
 class PDFSyntaxError(PDFException):
     pass
 
 
-##  PDFParser
-##
+#  PDFParser
+#
 class PDFParser(PSStackParser):
 
     """
@@ -50,12 +50,12 @@ class PDFParser(PSStackParser):
         self.doc = doc
         return
 
-    KEYWORD_R = KWD(b'R')
-    KEYWORD_NULL = KWD(b'null')
-    KEYWORD_ENDOBJ = KWD(b'endobj')
-    KEYWORD_STREAM = KWD(b'stream')
-    KEYWORD_XREF = KWD(b'xref')
-    KEYWORD_STARTXREF = KWD(b'startxref')
+    KEYWORD_R = KWD(b"R")
+    KEYWORD_NULL = KWD(b"null")
+    KEYWORD_ENDOBJ = KWD(b"endobj")
+    KEYWORD_STREAM = KWD(b"stream")
+    KEYWORD_XREF = KWD(b"xref")
+    KEYWORD_STARTXREF = KWD(b"startxref")
 
     def do_keyword(self, pos, token):
         """Handles PDF-related keywords."""
@@ -87,30 +87,30 @@ class PDFParser(PSStackParser):
             objlen = 0
             if not self.fallback:
                 try:
-                    objlen = int_value(dic['Length'])
+                    objlen = int_value(dic["Length"])
                 except KeyError:
                     if STRICT:
-                        raise PDFSyntaxError('/Length is undefined: %r' % dic)
+                        raise PDFSyntaxError("/Length is undefined: %r" % dic)
             self.seek(pos)
             try:
                 (_, line) = self.nextline()  # 'stream'
             except PSEOF:
                 if STRICT:
-                    raise PDFSyntaxError('Unexpected EOF')
+                    raise PDFSyntaxError("Unexpected EOF")
                 return
             pos += len(line)
             self.fp.seek(pos)
             data = self.fp.read(objlen)
-            self.seek(pos+objlen)
+            self.seek(pos + objlen)
             while 1:
                 try:
                     (linepos, line) = self.nextline()
                 except PSEOF:
                     if STRICT:
-                        raise PDFSyntaxError('Unexpected EOF')
+                        raise PDFSyntaxError("Unexpected EOF")
                     break
-                if b'endstream' in line:
-                    i = line.index(b'endstream')
+                if b"endstream" in line:
+                    i = line.index(b"endstream")
                     objlen += i
                     if self.fallback:
                         data += line[:i]
@@ -118,11 +118,13 @@ class PDFParser(PSStackParser):
                 objlen += len(line)
                 if self.fallback:
                     data += line
-            self.seek(pos+objlen)
+            self.seek(pos + objlen)
             # XXX limit objlen not to exceed object boundary
             if self.debug:
-                logging.debug('Stream: pos=%d, objlen=%d, dic=%r, data=%r...' % \
-                              (pos, objlen, dic, data[:10]))
+                logging.debug(
+                    "Stream: pos=%d, objlen=%d, dic=%r, data=%r..."
+                    % (pos, objlen, dic, data[:10])
+                )
             obj = PDFStream(dic, data, self.doc.decipher)
             self.push((pos, obj))
 
@@ -133,8 +135,8 @@ class PDFParser(PSStackParser):
         return
 
 
-##  PDFStreamParser
-##
+#  PDFStreamParser
+#
 class PDFStreamParser(PDFParser):
 
     """
@@ -153,7 +155,8 @@ class PDFStreamParser(PDFParser):
         self.add_results(*self.popall())
         return
 
-    KEYWORD_OBJ = KWD(b'obj')
+    KEYWORD_OBJ = KWD(b"obj")
+
     def do_keyword(self, pos, token):
         if token is self.KEYWORD_R:
             # reference to indirect object
@@ -169,7 +172,7 @@ class PDFStreamParser(PDFParser):
             if STRICT:
                 # See PDF Spec 3.4.6: Only the object values are stored in the
                 # stream; the obj and endobj keywords are not used.
-                raise PDFSyntaxError('Keyword endobj found in stream')
+                raise PDFSyntaxError("Keyword endobj found in stream")
             return
         # others
         self.push((pos, token))
