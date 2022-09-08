@@ -1,5 +1,6 @@
 import unittest
-from pdfminer.pdffont import PDFFont
+from pdfminer.pdffont import get_widths
+from pdfminer.pdffont import get_widths2
 #  Simplistic Test cases
 
 
