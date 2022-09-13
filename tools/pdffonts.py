@@ -117,7 +117,7 @@ def commandlineargumenthandler(argv, usage):
 
         print(fontname.ljust(50), end='')
         print(fonttype)
-
+    outfp.close()
     device.close()
     return fontobject
 
