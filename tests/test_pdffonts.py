@@ -52,7 +52,52 @@ class TestPdffonts(unittest.TestCase):
         )
         return
 
-    
+    # Test correct behaviour of commandlineArgumentHandler given simple3.pdf with 90 degree rotation
+    def test_commandlineargumenthandler_simple3withrotation(self):
+        def usage():
+            return 100
+        expectedFontObject = {
+            "Helvetica": "Type 1",
+            "unknown": "Type CID"
+        }
+        self.assertEqual(
+            commandlineargumenthandler(["null", "-R", "90" ,"samples/simple3.pdf"], usage=usage),
+            expectedFontObject,
+        )
+        return
+
+    # Test correct behaviour of commandlineArgumentHandler given an encrypted pdf
+    def test_commandlineargumenthandler_encrypted(self):
+        def usage():
+            return 100
+        expectedFontObject = {
+            "BAAAAA+TimesNewRomanPSMT": "TrueType"
+        }
+        self.assertEqual(
+            commandlineargumenthandler(["tools/pdffonts.py", "-P", "foo" ,"samples/encryption/aes-128-m.pdf"], usage=usage),
+            expectedFontObject,
+        )
+        return
+
+    # Test correct behaviour of commandlineArgumentHandler with page number restriction
+    def test_commandlineargumenthandler_pagenos(self):
+        def usage():
+            return 100
+        expectedFontObject = {
+            "PDDIPA+Helvetica": "Type 1",
+            "PDDJAB+ZapfDingbats": "Type 1",
+            "PDDJAC+Helvetica-Oblique": "Type 1",
+            "PDDJAD+Helvetica-Bold": "Type 1",
+            "PDDJCD+Helvetica-Condensed-Black": "Type 1",
+            "PDDJCE+FranklinGothic-Demi": "Type 1",
+            "PDDJDF+Symbol": "Type 1",
+            "PDDJEF+Helvetica-Black": "Type 1",
+        }
+        self.assertEqual(
+            commandlineargumenthandler(["tools/pdffonts.py", "-p", "1" ,"samples/nonfree/i1040nr.pdf"], usage=usage),
+            expectedFontObject,
+        )
+        return
 
 if __name__ == "__main__":
     unittest.main()
