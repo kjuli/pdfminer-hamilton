@@ -75,12 +75,10 @@ def commandlineargumenthandler(argv, usage):
             laparams.line_margin = float(v)
         elif k == "-F":
             laparams.boxes_flow = float(v)
-    #
     PDFDocument.debug = debug
     PDFParser.debug = debug
     CMapDB.debug = debug
     PDFPageInterpreter.debug = debug
-    #
     rsrcmgr = PDFResourceManager(caching=caching)
     rsrcmgr.get_font(None, {})
     outfp = sys.stdout
@@ -104,7 +102,7 @@ def commandlineargumenthandler(argv, usage):
             rotation=rotation,
         )
     # print results
-    print("name".ljust(50)+"type")
+    print("name".ljust(50) + "type")
     print("-----------------------------------------------------------")
     fontobject = {}
     for fontkey in rsrcmgr._cached_fonts:   

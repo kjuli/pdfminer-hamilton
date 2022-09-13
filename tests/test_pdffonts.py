@@ -4,7 +4,6 @@ from tools.pdffonts import commandlineargumenthandler
 
 class TestPdffonts(unittest.TestCase):
     
-
     # Test calling commandlineArgumentHandler with no args
     def test_commandlineargumenthandlernoargs(self):
         def usage():
@@ -61,7 +60,7 @@ class TestPdffonts(unittest.TestCase):
             "unknown": "Type CID"
         }
         self.assertEqual(
-            commandlineargumenthandler(["null", "-R", "90" ,"samples/simple3.pdf"], usage=usage),
+            commandlineargumenthandler(["null", "-R", "90", "samples/simple3.pdf"], usage=usage),
             expectedFontObject,
         )
         return
@@ -74,7 +73,7 @@ class TestPdffonts(unittest.TestCase):
             "BAAAAA+TimesNewRomanPSMT": "TrueType"
         }
         self.assertEqual(
-            commandlineargumenthandler(["tools/pdffonts.py", "-P", "foo" ,"samples/encryption/aes-128-m.pdf"], usage=usage),
+            commandlineargumenthandler(["tools/pdffonts.py", "-P", "foo", "samples/encryption/aes-128-m.pdf"], usage=usage),
             expectedFontObject,
         )
         return
@@ -94,10 +93,11 @@ class TestPdffonts(unittest.TestCase):
             "PDDJEF+Helvetica-Black": "Type 1",
         }
         self.assertEqual(
-            commandlineargumenthandler(["tools/pdffonts.py", "-p", "1" ,"samples/nonfree/i1040nr.pdf"], usage=usage),
+            commandlineargumenthandler(["tools/pdffonts.py", "-p", "1", "samples/nonfree/i1040nr.pdf"], usage=usage),
             expectedFontObject,
         )
         return
+
 
 if __name__ == "__main__":
     unittest.main()
