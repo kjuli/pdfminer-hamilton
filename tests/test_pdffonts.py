@@ -1,9 +1,9 @@
+import sys
 import unittest
 from tools.pdffonts import commandlineargumenthandler
 
 
 class TestPdffonts(unittest.TestCase):
-    
     # Test calling commandlineArgumentHandler with no args
     def test_commandlineargumenthandlernoargs(self):
         def usage():
@@ -19,6 +19,7 @@ class TestPdffonts(unittest.TestCase):
         expectedFontObject = {
             "Helvetica": "Type 1"
         }
+        sys.stdout = open("/dev/stdout", "w")
         self.assertEqual(
             commandlineargumenthandler(["null", "samples/simple1.pdf"], usage=usage),
             expectedFontObject,
@@ -31,6 +32,7 @@ class TestPdffonts(unittest.TestCase):
             return 100
         expectedFontObject = {
         }
+        sys.stdout = open("/dev/stdout", "w")
         self.assertEqual(
             commandlineargumenthandler(["null", "samples/simple2.pdf"], usage=usage),
             expectedFontObject,
@@ -45,6 +47,7 @@ class TestPdffonts(unittest.TestCase):
             "Helvetica": "Type 1",
             "unknown": "Type CID"
         }
+        sys.stdout = open("/dev/stdout", "w")
         self.assertEqual(
             commandlineargumenthandler(["null", "samples/simple3.pdf"], usage=usage),
             expectedFontObject,
@@ -59,6 +62,7 @@ class TestPdffonts(unittest.TestCase):
             "Helvetica": "Type 1",
             "unknown": "Type CID"
         }
+        sys.stdout = open("/dev/stdout", "w")
         self.assertEqual(
             commandlineargumenthandler(["null", "-R", "90", "samples/simple3.pdf"], usage=usage),
             expectedFontObject,
@@ -72,6 +76,7 @@ class TestPdffonts(unittest.TestCase):
         expectedFontObject = {
             "BAAAAA+TimesNewRomanPSMT": "TrueType"
         }
+        sys.stdout = open("/dev/stdout", "w")
         self.assertEqual(
             commandlineargumenthandler(["tools/pdffonts.py", "-P", "foo", "samples/encryption/aes-128-m.pdf"], usage=usage),
             expectedFontObject,
@@ -92,6 +97,7 @@ class TestPdffonts(unittest.TestCase):
             "PDDJDF+Symbol": "Type 1",
             "PDDJEF+Helvetica-Black": "Type 1",
         }
+        sys.stdout = open("/dev/stdout", "w")
         self.assertEqual(
             commandlineargumenthandler(["tools/pdffonts.py", "-p", "1", "samples/nonfree/i1040nr.pdf"], usage=usage),
             expectedFontObject,

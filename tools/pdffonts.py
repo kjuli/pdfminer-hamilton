@@ -105,7 +105,7 @@ def commandlineargumenthandler(argv, usage):
     print("name".ljust(50) + "type")
     print("-----------------------------------------------------------")
     fontobject = {}
-    for fontkey in rsrcmgr._cached_fonts:   
+    for fontkey in rsrcmgr._cached_fonts:
         # Font = class (PDFType1Font etc)
         font = rsrcmgr._cached_fonts[fontkey]
         # Type = TrueType/Type 1/Type 3/Type CID
