@@ -4,7 +4,7 @@ import io
 from tools.dumppdf import dumpoutline
 
 
-class TestDumppdf(unittest.TestCase):
+class TestDumpoutline(unittest.TestCase):
     sample_outline_pairs = [(
         "samples/simple1.pdf",
         "samples/test_samples/simple1_outline.txt"
