@@ -19,6 +19,12 @@ class TestDumppdf(unittest.TestCase):
     def test_simple1(self):
         self.compare_outlines("samples/simple1.pdf", "samples/test_samples/simple1_outline.txt")
 
+    def test_cryptography_intro(self):
+        self.compare_outlines(
+            "samples/test_samples/Introduction_To_Modern_Cryptography.pdf",
+            "samples/test_samples/Introduction_To_Modern_Cryptography_outline.txt"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
