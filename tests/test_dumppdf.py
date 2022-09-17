@@ -5,6 +5,8 @@ from tools.dumppdf import dumpoutline
 
 
 class TestDumpoutline(unittest.TestCase):
+    # sample_outline_pairs contains tuples (pdf, txt) such that
+    # txt contains the expected output of running dumpoutline on pdf
     sample_outline_pairs = [(
         "samples/simple1.pdf",
         "samples/test_samples/simple1_outline.txt"
@@ -13,6 +15,8 @@ class TestDumpoutline(unittest.TestCase):
         "samples/test_samples/Introduction_To_Modern_Cryptography_outline.txt"
     )]
 
+    """Asserts that the content of the file with filepath expected is equal to
+    the result of running dumpoutline on the .pdf file with filepath sample."""
     def compare_outlines(self, sample, expected):
         with io.StringIO() as dump_output:
             dumpoutline(dump_output, sample, [], set())
