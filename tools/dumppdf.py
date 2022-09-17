@@ -129,6 +129,7 @@ def dumpallobjs(out, doc, mode=None):
     return
 
 
+# dumpoutline_classed
 def dumpoutline_classed(
     outfp,
     fname,
@@ -142,8 +143,8 @@ def dumpoutline_classed(
     pass
 
 
-# dumpoutline
-def dumpoutline(
+# dumpoutline_legacy
+def dumpoutline_legacy(
     outfp,
     fname,
     objids,
@@ -199,6 +200,10 @@ def dumpoutline(
             pass
         parser.close()
     return
+
+
+# dumpoutline
+dumpoutline = dumpoutline_legacy
 
 
 # extractembedded

@@ -1,7 +1,7 @@
 import unittest
 import io
 
-from tools.dumppdf import dumpoutline, dumpoutline_classed
+from tools.dumppdf import dumpoutline_legacy, dumpoutline_classed
 
 
 class TestDumpoutline(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestDumpoutline(unittest.TestCase):
     the result of running dumpoutline on the .pdf file with filepath sample."""
     def compare_outlines(self, sample, expected):
         with io.StringIO() as dump_output:
-            dumpoutline(dump_output, sample, [], set())
+            dumpoutline_legacy(dump_output, sample, [], set())
             dump_output.seek(0)
             dump_output_lines = dump_output.readlines()
 
