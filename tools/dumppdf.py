@@ -31,8 +31,9 @@ class OutlineList:
         self.outlines = self.doc.get_outlines()  # raises PDFNoOutlines
 
     def __iter__(self):
-        for outline in self.outlines:
-            yield outline
+        for (level, title, dest, a, se) in self.outlines:
+            pageno = None
+            yield (level, title, dest, a, se, pageno)
 
     def resolve_dest(self, dest):
         if isinstance(dest, str):
@@ -180,7 +181,6 @@ def dumpoutline_legacy(
             outlines = doc.get_outlines()
             outfp.write("<outlines>\n")
             for (level, title, dest, a, se) in outlines:
-                pageno = None
                 if dest:
                     dest = resolve_dest(dest)
                     pageno = pages[dest[0].objid]
@@ -224,8 +224,7 @@ def dumpoutline_new(
         try:
             outlines = OutlineList(PDFDocument(parser, password))
             outfp.write("<outlines>\n")
-            for (level, title, dest, a, se) in outlines:
-                pageno = None
+            for (level, title, dest, a, se, pageno) in outlines:
                 if dest:
                     dest = outlines.resolve_dest(dest)
                     pageno = outlines.pages[dest[0].objid]
