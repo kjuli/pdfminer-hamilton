@@ -21,7 +21,7 @@ from pdfminer.utils import isnumber, q
 ESCAPE = set(map(ord, '&<>"'))
 
 
-class Outline:
+class OutlineList:
     def __init__(self, doc):
         self.doc = doc
         self.pages = dict(
@@ -222,7 +222,7 @@ def dumpoutline_classed(
         parser = PDFParser(fp)
 
         try:
-            outline = Outline(PDFDocument(parser, password))
+            outline = OutlineList(PDFDocument(parser, password))
             outfp.write("<outlines>\n")
             for (level, title, dest, a, se) in outline:
                 pageno = None
