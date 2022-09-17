@@ -1,7 +1,7 @@
 import unittest
 import io
 
-from tools.dumppdf import dumpoutline_legacy, dumpoutline_classed
+from tools.dumppdf import dumpoutline_legacy, dumpoutline_new
 
 
 class TestDumpoutline(unittest.TestCase):
@@ -37,7 +37,7 @@ class TestDumpoutline(unittest.TestCase):
 
     def test_sample_outline_pairs_classed(self):
         for (sample, expected) in self.sample_outline_pairs:
-            self.compare_outlines(sample, expected, dumpoutline_classed)
+            self.compare_outlines(sample, expected, dumpoutline_new)
 
 
 if __name__ == "__main__":

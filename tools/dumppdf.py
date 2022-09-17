@@ -207,8 +207,8 @@ def dumpoutline_legacy(
     return
 
 
-# dumpoutline_classed
-def dumpoutline_classed(
+# dumpoutline_new
+def dumpoutline_new(
     outfp,
     fname,
     objids,
