@@ -45,61 +45,51 @@ class TestDumpoutline(unittest.TestCase):
 
 
 class TestOutlineList(unittest.TestCase):
-    def test_outlines_as_list(self):
-        for (sample, expected) in sample_outline_pairs:
+    def enclose_test(self, test):
+        for (sample, _) in sample_outline_pairs:
             with open(sample, "rb") as fp:
                 parser = PDFParser(fp)
 
                 try:
                     outlines = OutlineList(PDFDocument(parser, b""))
-                    outline_list = outlines.as_list()
-                    i = 0
-
-                    for elem in outlines:
-                        self.assertEqual(elem, outline_list[i])
-                        i += 1
+                    test(outlines)
                 except PDFNoOutlines:
                     pass
 
                 parser.close()
+
+    def test_outlines_as_list(self):
+        def test(outlines):
+            outline_list = outlines.as_list()
+            i = 0
+
+            for elem in outlines:
+                self.assertEqual(elem, outline_list[i])
+                i += 1
+
+        self.enclose_test(test)
 
     def test_title_pageno_pairs(self):
-        for (sample, expected) in sample_outline_pairs:
-            with open(sample, "rb") as fp:
-                parser = PDFParser(fp)
+        def test(outlines):
+            outline_list = outlines.as_list()
+            i = 0
 
-                try:
-                    outlines = OutlineList(PDFDocument(parser, b""))
-                    outline_list = outlines.as_list()
-                    i = 0
+            for elem in outlines.title_pageno_pairs():
+                self.assertEqual(elem, (outline_list[i][1], outline_list[i][5]))
+                i += 1
 
-                    for elem in outlines.title_pageno_pairs():
-                        self.assertEqual(elem, (outline_list[i][1], outline_list[i][5]))
-                        i += 1
-
-                except PDFNoOutlines:
-                    pass
-
-                parser.close()
+        self.enclose_test(test)
 
     def test_title_pageno_pair_list(self):
-        for (sample, expected) in sample_outline_pairs:
-            with open(sample, "rb") as fp:
-                parser = PDFParser(fp)
+        def test(outlines):
+            pair_list = outlines.title_pageno_pair_list()
+            i = 0
 
-                try:
-                    outlines = OutlineList(PDFDocument(parser, b""))
-                    pair_list = outlines.title_pageno_pair_list()
-                    i = 0
+            for pair in outlines.title_pageno_pairs():
+                self.assertEqual(pair, pair_list[i])
+                i += 1
 
-                    for pair in outlines.title_pageno_pairs():
-                        self.assertEqual(pair, pair_list[i])
-                        i += 1
-
-                except PDFNoOutlines:
-                    pass
-
-                parser.close()
+        self.enclose_test(test)
 
 
 if __name__ == "__main__":
