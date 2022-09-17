@@ -58,6 +58,10 @@ class OutlineList:
     def as_list(self):
         return [e for e in self]
 
+    def title_pageno_pairs(self):
+        for (_, title, _, _, _, pageno) in self:
+            yield (title, pageno)
+
 
 def encode(data):
     buf = StringIO()
