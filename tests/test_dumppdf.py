@@ -75,6 +75,7 @@ class TestOutlineList(unittest.TestCase):
 
                     for elem in outlines.title_pageno_pairs():
                         self.assertEqual(elem, (outline_list[i][1], outline_list[i][5]))
+                        i += 1
 
                 except PDFNoOutlines:
                     pass
