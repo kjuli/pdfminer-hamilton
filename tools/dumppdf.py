@@ -55,6 +55,9 @@ class OutlineList:
             dest = dest["D"]
         return dest
 
+    def as_list(self):
+        return [e for e in self]
+
 
 def encode(data):
     buf = StringIO()
