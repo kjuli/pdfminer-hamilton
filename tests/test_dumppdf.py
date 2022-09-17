@@ -17,9 +17,9 @@ class TestDumpoutline(unittest.TestCase):
 
     """Asserts that the content of the file with filepath expected is equal to
     the result of running dumpoutline on the .pdf file with filepath sample."""
-    def compare_outlines(self, sample, expected):
+    def compare_outlines(self, sample, expected, dumpoutline):
         with io.StringIO() as dump_output:
-            dumpoutline_legacy(dump_output, sample, [], set())
+            dumpoutline(dump_output, sample, [], set())
             dump_output.seek(0)
             dump_output_lines = dump_output.readlines()
 
@@ -28,24 +28,13 @@ class TestDumpoutline(unittest.TestCase):
 
                 self.assertEqual(dump_output_lines, expected_lines)
 
-    def test_sample_outline_pairs(self):
+    def test_sample_outline_pairs_legacy(self):
         for (sample, expected) in self.sample_outline_pairs:
-            self.compare_outlines(sample, expected)
-
-    def compare_outlines_classed(self, sample, expected):
-        with io.StringIO() as dump_output:
-            dumpoutline_classed(dump_output, sample, [], set())
-            dump_output.seek(0)
-            dump_output_lines = dump_output.readlines()
-
-            with open(expected) as expect_file:
-                expected_lines = expect_file.readlines()
-
-                self.assertEqual(dump_output_lines, expected_lines)
+            self.compare_outlines(sample, expected, dumpoutline_legacy)
 
     def test_sample_outline_pairs_classed(self):
         for (sample, expected) in self.sample_outline_pairs:
-            self.compare_outlines_classed(sample, expected)
+            self.compare_outlines(sample, expected, dumpoutline_classed)
 
 
 if __name__ == "__main__":
