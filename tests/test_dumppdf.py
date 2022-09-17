@@ -13,6 +13,9 @@ class TestDumpoutline(unittest.TestCase):
     ), (
         "samples/test_samples/Introduction_To_Modern_Cryptography.pdf",
         "samples/test_samples/Introduction_To_Modern_Cryptography_outline.txt"
+    ), (
+        "samples/nonfree/dmca.pdf",
+        "samples/test_samples/dmca_outline.txt"
     )]
 
     """Asserts that the content of the file with filepath expected is equal to
