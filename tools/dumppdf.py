@@ -28,7 +28,7 @@ class OutlineList:
             (page.pageid, pageno)
             for (pageno, page) in enumerate(PDFPage.create_pages(self.doc))
         )
-        self.outlines = self.doc.get_outlines()  # throws PDFNoOutlines
+        self.outlines = self.doc.get_outlines()  # raises PDFNoOutlines
 
     def __iter__(self):
         for outline in self.outlines:
