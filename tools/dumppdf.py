@@ -21,6 +21,10 @@ from pdfminer.utils import isnumber, q
 ESCAPE = set(map(ord, '&<>"'))
 
 
+class Outline:
+    pass
+
+
 def encode(data):
     buf = StringIO()
     for b in data:
@@ -123,6 +127,19 @@ def dumpallobjs(out, doc, mode=None):
     dumptrailers(out, doc)
     out.write("</pdf>")
     return
+
+
+def dumpoutline_classed(
+    outfp,
+    fname,
+    objids,
+    pagenos,
+    password=b"",
+    dumpall=False,
+    mode=None,
+    extractdir=None,
+):
+    pass
 
 
 # dumpoutline
