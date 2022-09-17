@@ -63,6 +63,24 @@ class TestOutlineList(unittest.TestCase):
 
                 parser.close()
 
+    def test_title_pageno_pairs(self):
+        for (sample, expected) in sample_outline_pairs:
+            with open(sample, "rb") as fp:
+                parser = PDFParser(fp)
+
+                try:
+                    outlines = OutlineList(PDFDocument(parser, b""))
+                    outline_list = outlines.as_list()
+                    i = 0
+
+                    for elem in outlines.title_pageno_pairs():
+                        self.assertEqual(elem, (outline_list[i][1], outline_list[i][5]))
+
+                except PDFNoOutlines:
+                    pass
+
+                parser.close()
+
 
 if __name__ == "__main__":
     unittest.main()
