@@ -1,7 +1,7 @@
 import unittest
 import io
 
-from tools.dumppdf import dumpoutline
+from tools.dumppdf import dumpoutline, dumpoutline_classed
 
 
 class TestDumpoutline(unittest.TestCase):
@@ -31,6 +31,21 @@ class TestDumpoutline(unittest.TestCase):
     def test_sample_outline_pairs(self):
         for (sample, expected) in self.sample_outline_pairs:
             self.compare_outlines(sample, expected)
+
+    def compare_outlines_classed(self, sample, expected):
+        with io.StringIO() as dump_output:
+            dumpoutline_classed(dump_output, sample, [], set())
+            dump_output.seek(0)
+            dump_output_lines = dump_output.readlines()
+
+            with open(expected) as expect_file:
+                expected_lines = expect_file.readlines()
+
+                self.assertEqual(dump_output_lines, expected_lines)
+
+    def test_sample_outline_pairs_classed(self):
+        for (sample, expected) in self.sample_outline_pairs:
+            self.compare_outlines_classed(sample, expected)
 
 
 if __name__ == "__main__":
