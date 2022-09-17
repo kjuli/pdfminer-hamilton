@@ -29,6 +29,15 @@ class Outline:
             for (pageno, page) in enumerate(PDFPage.create_pages(self.doc))
         )
 
+    def resolve_dest(self, dest):
+        if isinstance(dest, str):
+            dest = resolve1(self.doc.get_dest(dest))
+        elif isinstance(dest, PSLiteral):
+            dest = resolve1(self.doc.get_dest(dest.name))
+        if isinstance(dest, dict):
+            dest = dest["D"]
+        return dest
+
 
 def encode(data):
     buf = StringIO()
@@ -208,29 +217,20 @@ def dumpoutline_classed(
         parser = PDFParser(fp)
         outline = Outline(PDFDocument(parser, password))
 
-        def resolve_dest(dest):
-            if isinstance(dest, str):
-                dest = resolve1(outline.doc.get_dest(dest))
-            elif isinstance(dest, PSLiteral):
-                dest = resolve1(outline.doc.get_dest(dest.name))
-            if isinstance(dest, dict):
-                dest = dest["D"]
-            return dest
-
         try:
             outlines = outline.doc.get_outlines()
             outfp.write("<outlines>\n")
             for (level, title, dest, a, se) in outlines:
                 pageno = None
                 if dest:
-                    dest = resolve_dest(dest)
+                    dest = outline.resolve_dest(dest)
                     pageno = outline.pages[dest[0].objid]
                 elif a:
                     action = a.resolve()
                     if isinstance(action, dict):
                         subtype = action.get("S")
                         if subtype and repr(subtype) == "/'GoTo'" and action.get("D"):
-                            dest = resolve_dest(action["D"])
+                            dest = outline.resolve_dest(action["D"])
                             pageno = outline.pages[dest[0].objid]
                 s = encode(bytes(title, "utf-8"))
                 outfp.write('<outline level="%r" title="%s">\n' % (level, q(s)))
