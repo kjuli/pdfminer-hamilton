@@ -134,8 +134,8 @@ def dumpallobjs(out, doc, mode=None):
     return
 
 
-# dumpoutline_classed
-def dumpoutline_classed(
+# dumpoutline_legacy
+def dumpoutline_legacy(
     outfp,
     fname,
     objids,
@@ -193,8 +193,8 @@ def dumpoutline_classed(
     return
 
 
-# dumpoutline_legacy
-def dumpoutline_legacy(
+# dumpoutline_classed
+def dumpoutline_classed(
     outfp,
     fname,
     objids,
