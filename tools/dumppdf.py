@@ -30,6 +30,10 @@ class Outline:
         )
         self.outlines = self.doc.get_outlines()  # throws PDFNoOutlines
 
+    def __iter__(self):
+        for outline in self.outlines:
+            yield outline
+
     def resolve_dest(self, dest):
         if isinstance(dest, str):
             dest = resolve1(self.doc.get_dest(dest))
@@ -220,7 +224,7 @@ def dumpoutline_classed(
         try:
             outline = Outline(PDFDocument(parser, password))
             outfp.write("<outlines>\n")
-            for (level, title, dest, a, se) in outline.outlines:
+            for (level, title, dest, a, se) in outline:
                 pageno = None
                 if dest:
                     dest = outline.resolve_dest(dest)
