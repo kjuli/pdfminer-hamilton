@@ -140,7 +140,52 @@ def dumpoutline_classed(
     mode=None,
     extractdir=None,
 ):
-    pass
+    with open(fname, "rb") as fp:
+        parser = PDFParser(fp)
+        doc = PDFDocument(parser, password)
+        pages = dict(
+            (page.pageid, pageno)
+            for (pageno, page) in enumerate(PDFPage.create_pages(doc))
+        )
+
+        def resolve_dest(dest):
+            if isinstance(dest, str):
+                dest = resolve1(doc.get_dest(dest))
+            elif isinstance(dest, PSLiteral):
+                dest = resolve1(doc.get_dest(dest.name))
+            if isinstance(dest, dict):
+                dest = dest["D"]
+            return dest
+
+        try:
+            outlines = doc.get_outlines()
+            outfp.write("<outlines>\n")
+            for (level, title, dest, a, se) in outlines:
+                pageno = None
+                if dest:
+                    dest = resolve_dest(dest)
+                    pageno = pages[dest[0].objid]
+                elif a:
+                    action = a.resolve()
+                    if isinstance(action, dict):
+                        subtype = action.get("S")
+                        if subtype and repr(subtype) == "/'GoTo'" and action.get("D"):
+                            dest = resolve_dest(action["D"])
+                            pageno = pages[dest[0].objid]
+                s = encode(bytes(title, "utf-8"))
+                outfp.write('<outline level="%r" title="%s">\n' % (level, q(s)))
+                if dest is not None:
+                    outfp.write("<dest>")
+                    dumpxml(outfp, dest)
+                    outfp.write("</dest>\n")
+                if pageno is not None:
+                    outfp.write("<pageno>%r</pageno>\n" % pageno)
+                outfp.write("</outline>\n")
+            outfp.write("</outlines>\n")
+        except PDFNoOutlines:
+            pass
+        parser.close()
+    return
 
 
 # dumpoutline_legacy
