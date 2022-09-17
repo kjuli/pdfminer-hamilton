@@ -22,7 +22,8 @@ ESCAPE = set(map(ord, '&<>"'))
 
 
 class Outline:
-    pass
+    def __init__(self, doc):
+        self.doc = doc
 
 
 def encode(data):
@@ -201,23 +202,23 @@ def dumpoutline_legacy(
 ):
     with open(fname, "rb") as fp:
         parser = PDFParser(fp)
-        doc = PDFDocument(parser, password)
+        outline = Outline(PDFDocument(parser, password))
         pages = dict(
             (page.pageid, pageno)
-            for (pageno, page) in enumerate(PDFPage.create_pages(doc))
+            for (pageno, page) in enumerate(PDFPage.create_pages(outline.doc))
         )
 
         def resolve_dest(dest):
             if isinstance(dest, str):
-                dest = resolve1(doc.get_dest(dest))
+                dest = resolve1(outline.doc.get_dest(dest))
             elif isinstance(dest, PSLiteral):
-                dest = resolve1(doc.get_dest(dest.name))
+                dest = resolve1(outline.doc.get_dest(dest.name))
             if isinstance(dest, dict):
                 dest = dest["D"]
             return dest
 
         try:
-            outlines = doc.get_outlines()
+            outlines = outline.doc.get_outlines()
             outfp.write("<outlines>\n")
             for (level, title, dest, a, se) in outlines:
                 pageno = None
