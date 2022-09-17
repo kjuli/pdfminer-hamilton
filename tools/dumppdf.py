@@ -222,20 +222,20 @@ def dumpoutline_classed(
         parser = PDFParser(fp)
 
         try:
-            outline = OutlineList(PDFDocument(parser, password))
+            outlines = OutlineList(PDFDocument(parser, password))
             outfp.write("<outlines>\n")
-            for (level, title, dest, a, se) in outline:
+            for (level, title, dest, a, se) in outlines:
                 pageno = None
                 if dest:
-                    dest = outline.resolve_dest(dest)
-                    pageno = outline.pages[dest[0].objid]
+                    dest = outlines.resolve_dest(dest)
+                    pageno = outlines.pages[dest[0].objid]
                 elif a:
                     action = a.resolve()
                     if isinstance(action, dict):
                         subtype = action.get("S")
                         if subtype and repr(subtype) == "/'GoTo'" and action.get("D"):
-                            dest = outline.resolve_dest(action["D"])
-                            pageno = outline.pages[dest[0].objid]
+                            dest = outlines.resolve_dest(action["D"])
+                            pageno = outlines.pages[dest[0].objid]
                 s = encode(bytes(title, "utf-8"))
                 outfp.write('<outline level="%r" title="%s">\n' % (level, q(s)))
                 if dest is not None:
