@@ -33,6 +33,17 @@ class OutlineList:
     def __iter__(self):
         for (level, title, dest, a, se) in self.outlines:
             pageno = None
+            if dest:
+                dest = self.resolve_dest(dest)
+                pageno = self.pages[dest[0].objid]
+            elif a:
+                action = a.resolve()
+                if isinstance(action, dict):
+                    subtype = action.get("S")
+                    if subtype and repr(subtype) == "/'GoTo'" and action.get("D"):
+                        dest = self.resolve_dest(action["D"])
+                        pageno = self.pages[dest[0].objid]
+
             yield (level, title, dest, a, se, pageno)
 
     def resolve_dest(self, dest):
@@ -225,16 +236,6 @@ def dumpoutline_new(
             outlines = OutlineList(PDFDocument(parser, password))
             outfp.write("<outlines>\n")
             for (level, title, dest, a, se, pageno) in outlines:
-                if dest:
-                    dest = outlines.resolve_dest(dest)
-                    pageno = outlines.pages[dest[0].objid]
-                elif a:
-                    action = a.resolve()
-                    if isinstance(action, dict):
-                        subtype = action.get("S")
-                        if subtype and repr(subtype) == "/'GoTo'" and action.get("D"):
-                            dest = outlines.resolve_dest(action["D"])
-                            pageno = outlines.pages[dest[0].objid]
                 s = encode(bytes(title, "utf-8"))
                 outfp.write('<outline level="%r" title="%s">\n' % (level, q(s)))
                 if dest is not None:
