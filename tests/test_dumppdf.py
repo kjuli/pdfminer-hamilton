@@ -1,7 +1,9 @@
+import os.path
 import unittest
 import io
 
-from tools.dumppdf import dumpoutline_legacy, dumpoutline_new, OutlineList
+import tools.dumppdf
+from tools.dumppdf import dumpoutline_legacy, dumpoutline_new, OutlineList, dumpchapters
 from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
 from pdfminer.pdfparser import PDFParser
 
@@ -19,6 +21,12 @@ sample_outline_pairs = [(
     "samples/test_samples/dmca_outline.txt"
 )]
 
+# Contains tuples of actual pdf and directory to chapter output
+sampleoutlinetuples = [(
+    "samples/test_samples/Introduction_To_Modern_Cryptography.pdf",
+    "samples/IntroChapters",
+    ["chapter__Series Page.txt"]
+)]
 
 class TestDumpoutline(unittest.TestCase):
 
@@ -90,6 +98,22 @@ class TestOutlineList(unittest.TestCase):
                 i += 1
 
         self.enclose_test(test)
+
+
+class TestChapterCreation(unittest.TestCase):
+
+    def test_dump_chapters(self):
+        """
+        Tests whether the correct directory was created and that all the chapters are extracted.
+        """
+        dc = dumpchapters(level=1)  # Extractor method
+        for (file, outputdirectory, outputfiles) in sampleoutlinetuples:
+            dc(None, file, None, None, extractdir=outputdirectory)
+
+            self.assertTrue(os.path.exists(outputdirectory))
+            for outputfile in outputfiles:
+                actualFile = os.path.join(outputdirectory, outputfile)
+                self.assertTrue(actualFile)
 
 
 if __name__ == "__main__":

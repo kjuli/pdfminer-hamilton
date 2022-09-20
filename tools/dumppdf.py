@@ -9,6 +9,9 @@
 import sys
 import os.path
 from io import StringIO
+
+from pdfminer.converter import TextConverter
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.psparser import PSKeyword, PSLiteral, LIT
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
@@ -16,7 +19,6 @@ from pdfminer.pdftypes import PDFObjectNotFound, PDFValueError
 from pdfminer.pdftypes import PDFStream, PDFObjRef, resolve1, stream_value
 from pdfminer.pdfpage import PDFPage
 from pdfminer.utils import isnumber, q
-
 
 ESCAPE = set(map(ord, '&<>"'))
 
@@ -172,14 +174,14 @@ def dumpallobjs(out, doc, mode=None):
 
 # dumpoutline_legacy
 def dumpoutline_legacy(
-    outfp,
-    fname,
-    objids,
-    pagenos,
-    password=b"",
-    dumpall=False,
-    mode=None,
-    extractdir=None,
+        outfp,
+        fname,
+        objids,
+        pagenos,
+        password=b"",
+        dumpall=False,
+        mode=None,
+        extractdir=None,
 ):
     with open(fname, "rb") as fp:
         parser = PDFParser(fp)
@@ -190,7 +192,7 @@ def dumpoutline_legacy(
         )
 
         def resolve_dest(dest):
-            if isinstance(dest, str):
+            if isinstance(dest, (str, bytes)):
                 dest = resolve1(doc.get_dest(dest))
             elif isinstance(dest, PSLiteral):
                 dest = resolve1(doc.get_dest(dest.name))
@@ -230,14 +232,14 @@ def dumpoutline_legacy(
 
 # dumpoutline_new
 def dumpoutline_new(
-    outfp,
-    fname,
-    objids,
-    pagenos,
-    password=b"",
-    dumpall=False,
-    mode=None,
-    extractdir=None,
+        outfp,
+        fname,
+        objids,
+        pagenos,
+        password=b"",
+        dumpall=False,
+        mode=None,
+        extractdir=None,
 ):
     with open(fname, "rb") as fp:
         parser = PDFParser(fp)
@@ -265,21 +267,20 @@ def dumpoutline_new(
 # dumpoutline
 dumpoutline = dumpoutline_legacy
 
-
 # extractembedded
 LITERAL_FILESPEC = LIT("Filespec")
 LITERAL_EMBEDDEDFILE = LIT("EmbeddedFile")
 
 
 def extractembedded(
-    outfp,
-    fname,
-    objids,
-    pagenos,
-    password=b"",
-    dumpall=False,
-    mode=None,
-    extractdir=None,
+        outfp,
+        fname,
+        objids,
+        pagenos,
+        password=b"",
+        dumpall=False,
+        mode=None,
+        extractdir=None,
 ):
     def extract1(obj):
         filename = os.path.basename(obj["UF"] or obj["F"])
@@ -314,16 +315,84 @@ def extractembedded(
     return
 
 
+def dumpchapters(level=-1):
+    """
+    This method extracts each chapter of a PDF file to separate txt files.
+    Currently, this only works if there is an outline defined in the PDF file.
+
+    :param level: The level to consider. If it is -1, then every outline level will be considered.
+    :returns: A callable procedure handling the interpretation of each page into separate text files
+                per chapter (according to level).
+    """
+
+    def dump(outfp,
+             fname,
+             objids,
+             pagenos,
+             password=b"",
+             dumpall=False,
+             mode=None,
+             extractdir=None):
+
+        with open(fname, "rb") as fp:
+            outfpdic = f"{fname}_chapters/" if extractdir is None else extractdir
+
+            if not os.path.exists(outfpdic):
+                os.makedirs(outfpdic)
+
+            parser = PDFParser(fp)
+            document = PDFDocument(parser, password)
+            resourcemanager = PDFResourceManager(caching=True)
+
+            try:
+                outline = OutlineList(document)
+                lastpage = None  # Extract chapters by page difference
+                for (lvl, title, dest, a, se, pageno) in outline:
+                    if 0 <= level and lvl != level:
+                        # Only consider the right level
+                        continue
+
+                    if lastpage is None:
+                        lastpage = pageno
+                        continue
+
+                    outfpfile = os.path.join(extractdir, f"chapter__{title}.txt")
+                    with open(outfpfile, "w", encoding="utf-8") as outfp:
+                        # Output chapter to txt file
+                        pages = [i for i in range(lastpage, pageno + 1)]
+                        device = TextConverter(rsrcmgr=resourcemanager, outfp=outfp)
+                        pageinterpreter = PDFPageInterpreter(rsrcmgr=resourcemanager, device=device)
+
+                        for page in PDFPage.get_pages(
+                                fp,
+                                pages,
+                                maxpages=None,
+                                password=password,
+                                caching=True,
+                                check_extractable=True,
+                        ):
+                            pageinterpreter.process_page(page)
+
+                    lastpage = pageno
+
+                print("Outline created successfully!")
+            except PDFNoOutlines:
+                print("Currently, this feature only works if the PDF has an outline")
+            parser.close()
+
+    return dump
+
+
 # dumppdf
 def dumppdf(
-    outfp,
-    fname,
-    objids,
-    pagenos,
-    password=b"",
-    dumpall=False,
-    mode=None,
-    extractdir=None,
+        outfp,
+        fname,
+        objids,
+        pagenos,
+        password=b"",
+        dumpall=False,
+        mode=None,
+        extractdir=None,
 ):
     with open(fname, "rb") as fp:
         parser = PDFParser(fp)
@@ -357,12 +426,12 @@ def main(argv):
     def usage():
         print(
             f"usage: {argv[0]} [-P password] [-a] [-p pageid] [-i objid] [-o output] "
-            "[-r|-b|-t] [-T] [-O output_dir] [-d] input.pdf ..."
+            "[-r|-b|-t] [-T] [-O output_dir] [-d] [-C level] input.pdf ..."
         )
         return 100
 
     try:
-        (opts, args) = getopt.getopt(argv[1:], "dP:ap:i:o:rbtTO:")
+        (opts, args) = getopt.getopt(argv[1:], "dP:ap:i:o:rbtTO:C:e")
     except getopt.GetoptError:
         return usage()
     if not args:
@@ -397,8 +466,11 @@ def main(argv):
             mode = "text"
         elif k == "-T":
             proc = dumpoutline
+        elif k == "-C":
+            proc = dumpchapters(level=int(v))
         elif k == "-O":
             extractdir = v
+        elif k == "-e":
             proc = extractembedded
     #
     PDFDocument.debug = debug
