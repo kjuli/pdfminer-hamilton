@@ -2,6 +2,7 @@
 import sys
 import getopt
 from pdfminer.pdfdocument import PDFDocument
+from pdfminer.pdffont import PDFCIDFont
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfpage import PDFPage
@@ -9,6 +10,7 @@ from pdfminer.converter import FontConverter
 from pdfminer.cmapdb import CMapDB
 from pdfminer.layout import LAParams
 from pdfminer.image import ImageWriter
+from pdfminer.psparser import PSLiteral
 
 
 def pdfconversion(
@@ -102,8 +104,10 @@ def commandlineargumenthandler(argv, usage):
             rotation=rotation,
         )
     # print results
-    print("name".ljust(50) + "type")
-    print("-----------------------------------------------------------")
+    print("name".ljust(50) + "type".ljust(10) + "unicode".ljust(10) + "encoding")
+    print(
+        "------------------------------------------------------------------------------------------"
+    )
     fontobject = {}
     for fontkey in rsrcmgr._cached_fonts:
         # Font = class (PDFType1Font etc)
@@ -114,9 +118,22 @@ def commandlineargumenthandler(argv, usage):
         fontname = font.basefont
         # Final object containing all fonts and their types
         fontobject[fontname] = fonttype
+        # print(font.unicode_map, font.encoding)
+        unicode = "No"
+        encoding = str(font.encoding)
+        if font.unicode_map:
+            unicode = "Yes"
+        if type(font.encoding) != PSLiteral:
+            encoding = "Custom"
+        if type(font) == PDFCIDFont:
+            encoding = str(font.cidcoding)
+        encoding = encoding.replace("/", "")
+        encoding = encoding.replace("'", "")
+        print(fontname.ljust(50), end="")
+        print(fonttype.ljust(10), end="")
+        print(unicode.ljust(10), end="")
+        print(encoding)
 
-        print(fontname.ljust(50), end='')
-        print(fonttype)
     outfp.close()
     device.close()
     return fontobject

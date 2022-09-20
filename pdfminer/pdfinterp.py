@@ -220,6 +220,7 @@ class PDFResourceManager:
                 for k in ("Encoding", "ToUnicode"):
                     if k in spec:
                         subspec[k] = resolve1(spec[k])
+
                 font = self.get_font(None, subspec)
             else:
                 if STRICT:
@@ -274,12 +275,12 @@ class PDFContentParser(PSStackParser):
         while i <= len(target):
             self.fillbuf()
             if i:
-                c = self.buf[self.charpos: self.charpos + 1]
+                c = self.buf[self.charpos : self.charpos + 1]
                 data += c
                 self.charpos += 1
                 if len(target) <= i and c.isspace():
                     i += 1
-                elif i < len(target) and c == target[i: i + 1]:
+                elif i < len(target) and c == target[i : i + 1]:
                     i += 1
                 else:
                     i = 0
@@ -287,11 +288,11 @@ class PDFContentParser(PSStackParser):
                 try:
                     j = self.buf.index(target[0], self.charpos)
                     # print('found', (0, self.buf[j:j+10]))
-                    data += self.buf[self.charpos: j + 1]
+                    data += self.buf[self.charpos : j + 1]
                     self.charpos = j + 1
                     i = 1
                 except ValueError:
-                    data += self.buf[self.charpos:]
+                    data += self.buf[self.charpos :]
                     self.charpos = len(self.buf)
         data = data[: -(len(target) + 1)]  # strip the last part
         data = re.sub(rb"(\x0d\x0a|[\x0d\x0a])$", b"", data)
