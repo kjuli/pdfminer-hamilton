@@ -2,7 +2,6 @@ import os.path
 import unittest
 import io
 
-import tools.dumppdf
 from tools.dumppdf import dumpoutline_legacy, dumpoutline_new, OutlineList, dumpchapters
 from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
 from pdfminer.pdfparser import PDFParser
@@ -27,6 +26,7 @@ sampleoutlinetuples = [(
     "samples/IntroChapters",
     ["chapter__Series Page.txt"]
 )]
+
 
 class TestDumpoutline(unittest.TestCase):
 
