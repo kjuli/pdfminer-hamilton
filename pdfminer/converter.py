@@ -151,7 +151,7 @@ class PDFConverter(PDFLayoutAnalyzer):
 
 
 #  FontConverter
-#
+#  FontConverter overrides methods with nothing to avoid super class methods from being used.
 class FontConverter(PDFConverter):
     def __init__(
         self,
@@ -168,38 +168,20 @@ class FontConverter(PDFConverter):
         return
 
     def write_text(self, text):
-        return
+        # Do nothing
+        pass
 
     def receive_layout(self, ltpage):
-        def render(item):
-            if isinstance(item, LTContainer):
-                for child in item:
-                    render(child)
-            elif isinstance(item, LTText):
-                self.write_text(item.get_text())
-            if isinstance(item, LTTextBox):
-                self.write_text("\n")
-            elif isinstance(item, LTImage):
-                if self.imagewriter is not None:
-                    self.imagewriter.export_image(item)
+        # Do nothing
+        pass
 
-        if self.showpageno:
-            self.write_text("Page %s\n" % ltpage.pageid)
-        render(ltpage)
-        self.write_text("\f")
-        return
-
-    # Some dummy functions to save memory/CPU when all that is wanted
-    # is text.  This stops all the image and drawing output from being
-    # recorded and taking up RAM.
     def render_image(self, name, stream):
-        if self.imagewriter is None:
-            return
-        PDFConverter.render_image(self, name, stream)
-        return
+        # Do nothing
+        pass
 
     def paint_path(self, gstate, stroke, fill, evenodd, path):
-        return
+        # Do nothing
+        pass
 
 
 #  TextConverter

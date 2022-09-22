@@ -118,7 +118,6 @@ def commandlineargumenthandler(argv, usage):
         fontname = font.basefont
         # Final object containing all fonts and their types
         fontobject[fontname] = fonttype
-        # print(font.unicode_map, font.encoding)
         unicode = "No"
         encoding = str(font.encoding)
         if font.unicode_map:
