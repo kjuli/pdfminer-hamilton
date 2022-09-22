@@ -2,14 +2,14 @@ import os.path
 import unittest
 import io
 
-from tools.dumppdf import dumpoutline_legacy, dumpoutline_new, OutlineList, dumpchapters
+from tools.dumppdf import dumpoutlinelegacy, dumpoutlinenew, OutlineList, dumpchapters
 from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
 from pdfminer.pdfparser import PDFParser
 
 
-# sample_outline_pairs contains tuples (pdf, txt) such that
+# sampleoutlinepairs contains tuples (pdf, txt) such that
 # txt contains the expected output of running dumpoutline on pdf
-sample_outline_pairs = [(
+sampleoutlinepairs = [(
     "samples/simple1.pdf",
     "samples/test_samples/simple1_outline.txt"
 ), (
@@ -32,29 +32,30 @@ class TestDumpoutline(unittest.TestCase):
 
     """Asserts that the content of the file with filepath expected is equal to
     the result of running dumpoutline on the .pdf file with filepath sample."""
-    def compare_outlines(self, sample, expected, dumpoutline):
-        with io.StringIO() as dump_output:
-            dumpoutline(dump_output, sample, [], set())
-            dump_output.seek(0)
-            dump_output_lines = dump_output.readlines()
 
-            with open(expected) as expect_file:
-                expected_lines = expect_file.readlines()
+    def compareoutlines(self, sample, expected, dumpoutline):
+        with io.StringIO() as dumpoutput:
+            dumpoutline(dumpoutput, sample, [], set())
+            dumpoutput.seek(0)
+            dumpoutputlines = dumpoutput.readlines()
 
-                self.assertEqual(dump_output_lines, expected_lines)
+            with open(expected) as expectfile:
+                expectedlines = expectfile.readlines()
 
-    def test_sample_outline_pairs_legacy(self):
-        for (sample, expected) in sample_outline_pairs:
-            self.compare_outlines(sample, expected, dumpoutline_legacy)
+                self.assertEqual(dumpoutputlines, expectedlines)
 
-    def test_sample_outline_pairs_classed(self):
-        for (sample, expected) in sample_outline_pairs:
-            self.compare_outlines(sample, expected, dumpoutline_new)
+    def test_sampleoutlinepairslegacy(self):
+        for (sample, expected) in sampleoutlinepairs:
+            self.compareoutlines(sample, expected, dumpoutlinelegacy)
+
+    def test_sampleoutlinepairsclassed(self):
+        for (sample, expected) in sampleoutlinepairs:
+            self.compareoutlines(sample, expected, dumpoutlinenew)
 
 
 class TestOutlineList(unittest.TestCase):
-    def enclose_test(self, test):
-        for (sample, _) in sample_outline_pairs:
+    def enclosetest(self, test):
+        for (sample, _) in sampleoutlinepairs:
             with open(sample, "rb") as fp:
                 parser = PDFParser(fp)
 
@@ -66,43 +67,43 @@ class TestOutlineList(unittest.TestCase):
 
                 parser.close()
 
-    def test_outlines_as_list(self):
+    def test_outlinesaslist(self):
         def test(outlines):
-            outline_list = outlines.as_list()
+            outlinelist = outlines.aslist()
             i = 0
 
             for elem in outlines:
-                self.assertEqual(elem, outline_list[i])
+                self.assertEqual(elem, outlinelist[i])
                 i += 1
 
-        self.enclose_test(test)
+        self.enclosetest(test)
 
-    def test_title_pageno_pairs(self):
+    def test_titlepagenopairs(self):
         def test(outlines):
-            outline_list = outlines.as_list()
+            outlinelist = outlines.aslist()
             i = 0
 
-            for elem in outlines.title_pageno_pairs():
-                self.assertEqual(elem, (outline_list[i][1], outline_list[i][5]))
+            for elem in outlines.titlepagenopairs():
+                self.assertEqual(elem, (outlinelist[i][1], outlinelist[i][5]))
                 i += 1
 
-        self.enclose_test(test)
+        self.enclosetest(test)
 
-    def test_title_pageno_pair_list(self):
+    def test_titlepagenopairlist(self):
         def test(outlines):
-            pair_list = outlines.title_pageno_pair_list()
+            pairlist = outlines.titlepagenopairlist()
             i = 0
 
-            for pair in outlines.title_pageno_pairs():
-                self.assertEqual(pair, pair_list[i])
+            for pair in outlines.titlepagenopairs():
+                self.assertEqual(pair, pairlist[i])
                 i += 1
 
-        self.enclose_test(test)
+        self.enclosetest(test)
 
 
 class TestChapterCreation(unittest.TestCase):
 
-    def test_dump_chapters(self):
+    def test_dumpchapters(self):
         """
         Tests whether the correct directory was created and that all the chapters are extracted.
         """

@@ -36,20 +36,20 @@ class OutlineList:
         for (level, title, dest, a, se) in self.outlines:
             pageno = None
             if dest:
-                dest = self.resolve_dest(dest)
+                dest = self.resolvedest(dest)
                 pageno = self.pages[dest[0].objid]
             elif a:
                 action = a.resolve()
                 if isinstance(action, dict):
                     subtype = action.get("S")
                     if subtype and repr(subtype) == "/'GoTo'" and action.get("D"):
-                        dest = self.resolve_dest(action["D"])
+                        dest = self.resolvedest(action["D"])
                         pageno = self.pages[dest[0].objid]
 
             yield (level, title, dest, a, se, pageno)
 
-    def resolve_dest(self, dest):
-        if isinstance(dest, str):
+    def resolvedest(self, dest):
+        if isinstance(dest, (str, bytes)):
             dest = resolve1(self.doc.get_dest(dest))
         elif isinstance(dest, PSLiteral):
             dest = resolve1(self.doc.get_dest(dest.name))
@@ -57,15 +57,15 @@ class OutlineList:
             dest = dest["D"]
         return dest
 
-    def as_list(self):
+    def aslist(self):
         return [e for e in self]
 
-    def title_pageno_pairs(self):
+    def titlepagenopairs(self):
         for (_, title, _, _, _, pageno) in self:
             yield (title, pageno)
 
-    def title_pageno_pair_list(self):
-        return [e for e in self.title_pageno_pairs()]
+    def titlepagenopairlist(self):
+        return [e for e in self.titlepagenopairs()]
 
 
 def encode(data):
@@ -172,8 +172,8 @@ def dumpallobjs(out, doc, mode=None):
     return
 
 
-# dumpoutline_legacy
-def dumpoutline_legacy(
+# dumpoutlinelegacy
+def dumpoutlinelegacy(
         outfp,
         fname,
         objids,
@@ -192,7 +192,7 @@ def dumpoutline_legacy(
         )
 
         def resolve_dest(dest):
-            if isinstance(dest, (str, bytes)):
+            if isinstance(dest, str):
                 dest = resolve1(doc.get_dest(dest))
             elif isinstance(dest, PSLiteral):
                 dest = resolve1(doc.get_dest(dest.name))
@@ -230,8 +230,8 @@ def dumpoutline_legacy(
     return
 
 
-# dumpoutline_new
-def dumpoutline_new(
+# dumpoutlinenew
+def dumpoutlinenew(
         outfp,
         fname,
         objids,
@@ -265,7 +265,7 @@ def dumpoutline_new(
 
 
 # dumpoutline
-dumpoutline = dumpoutline_legacy
+dumpoutline = dumpoutlinelegacy
 
 # extractembedded
 LITERAL_FILESPEC = LIT("Filespec")
@@ -363,14 +363,16 @@ def dumpchapters(level=-1):
                         device = TextConverter(rsrcmgr=resourcemanager, outfp=outfp)
                         pageinterpreter = PDFPageInterpreter(rsrcmgr=resourcemanager, device=device)
 
-                        for page in PDFPage.get_pages(
-                                fp,
-                                pages,
-                                maxpages=None,
-                                password=password,
-                                caching=True,
-                                check_extractable=True,
-                        ):
+                        pdfpages = PDFPage.get_pages(
+                            fp,
+                            pages,
+                            maxpages=None,
+                            password=password,
+                            caching=True,
+                            check_extractable=True,
+                        )
+
+                        for page in pdfpages:
                             pageinterpreter.process_page(page)
 
                     lastpage = pageno
