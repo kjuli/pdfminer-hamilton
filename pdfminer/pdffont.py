@@ -69,6 +69,7 @@ def get_widths2(seq):
                 r = []
     return widths
 
+
 #  FontMetricsDB
 #
 
@@ -851,6 +852,7 @@ class PDFSimpleFont(PDFFont):
             encoding = resolve1(spec["Encoding"])
         else:
             encoding = LITERAL_STANDARD_ENCODING
+        self.encoding = encoding
         if isinstance(encoding, dict):
             name = literal_name(encoding.get("BaseEncoding", LITERAL_STANDARD_ENCODING))
             diff = list_value(encoding.get("Differences", None))
@@ -954,6 +956,7 @@ class PDFCIDFont(PDFFont):
             if STRICT:
                 raise PDFFontError("Encoding is unspecified")
             name = "unknown"
+        self.encoding = name
         try:
             self.cmap = CMapDB.get_cmap(name)
         except CMapDB.CMapNotFound as e:

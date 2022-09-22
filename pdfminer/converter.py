@@ -150,6 +150,40 @@ class PDFConverter(PDFLayoutAnalyzer):
         return
 
 
+#  FontConverter
+#  FontConverter overrides methods with nothing to avoid super class methods from being used.
+class FontConverter(PDFConverter):
+    def __init__(
+        self,
+        rsrcmgr,
+        outfp,
+        pageno=1,
+        laparams=None,
+        showpageno=False,
+        imagewriter=None,
+    ):
+        PDFConverter.__init__(self, rsrcmgr, outfp, pageno=pageno, laparams=laparams)
+        self.showpageno = showpageno
+        self.imagewriter = imagewriter
+        return
+
+    def write_text(self, text):
+        # Do nothing
+        pass
+
+    def receive_layout(self, ltpage):
+        # Do nothing
+        pass
+
+    def render_image(self, name, stream):
+        # Do nothing
+        pass
+
+    def paint_path(self, gstate, stroke, fill, evenodd, path):
+        # Do nothing
+        pass
+
+
 #  TextConverter
 #
 class TextConverter(PDFConverter):
