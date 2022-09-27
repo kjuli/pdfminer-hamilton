@@ -1,0 +1,202 @@
+<outlines>
+<outline level="1" title="Cover">
+<dest><list size="3">
+<ref id="252" />
+<literal>FitH</literal>
+<number>687</number>
+</list></dest>
+<pageno>0</pageno>
+</outline>
+<outline level="1" title="Series Page">
+<dest><list size="3">
+<ref id="136" />
+<literal>FitH</literal>
+<number>643</number>
+</list></dest>
+<pageno>3</pageno>
+</outline>
+<outline level="1" title="Contents">
+<dest><list size="3">
+<ref id="573" />
+<literal>FitH</literal>
+<number>639</number>
+</list></dest>
+<pageno>7</pageno>
+</outline>
+<outline level="1" title="Preface">
+<dest><list size="3">
+<ref id="764" />
+<literal>FitH</literal>
+<number>639</number>
+</list></dest>
+<pageno>15</pageno>
+</outline>
+<outline level="1" title="Part I: Introduction and Classical Cryptography">
+<dest><list size="3">
+<ref id="892" />
+<literal>FitH</literal>
+<number>507</number>
+</list></dest>
+<pageno>21</pageno>
+</outline>
+<outline level="1" title="Chapter 1: Introduction">
+<dest><list size="3">
+<ref id="931" />
+<literal>FitH</literal>
+<number>671</number>
+</list></dest>
+<pageno>23</pageno>
+</outline>
+<outline level="1" title="Chapter 2: Perfectly Secret Encryption">
+<dest><list size="3">
+<ref id="1992" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>45</pageno>
+</outline>
+<outline level="1" title="Part II: Private-Key (Symmetric) Cryptography">
+<dest><list size="3">
+<ref id="235" />
+<literal>FitH</literal>
+<number>507</number>
+</list></dest>
+<pageno>61</pageno>
+</outline>
+<outline level="1" title="Chapter 3: Private-Key Encryption">
+<dest><list size="3">
+<ref id="274" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>63</pageno>
+</outline>
+<outline level="1" title="Chapter 4: Message Authentication Codes">
+<dest><list size="3">
+<ref id="1463" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>127</pageno>
+</outline>
+<outline level="1" title="Chapter 5: Hash Functions and Applications">
+<dest><list size="3">
+<ref id="58" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>173</pageno>
+</outline>
+<outline level="1" title="Chapter 6: Practical Constructions of Symmetric-Key Primitives">
+<dest><list size="3">
+<ref id="1227" />
+<literal>FitH</literal>
+<number>671</number>
+</list></dest>
+<pageno>213</pageno>
+</outline>
+<outline level="1" title="Chapter 7: Theoretical Constructions of Symmetric-Key Primitives">
+<dest><list size="3">
+<ref id="258" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>261</pageno>
+</outline>
+<outline level="1" title="Part III: Public-Key (Asymmetric) Cryptography">
+<dest><list size="3">
+<ref id="1201" />
+<literal>FitH</literal>
+<number>507</number>
+</list></dest>
+<pageno>303</pageno>
+</outline>
+<outline level="1" title="Chapter 8: Number Theory and Cryptographic Hardness Assumptions">
+<dest><list size="3">
+<ref id="1249" />
+<literal>FitH</literal>
+<number>671</number>
+</list></dest>
+<pageno>305</pageno>
+</outline>
+<outline level="1" title="Chapter 9: Algorithms for Factoring and Computing Discrete Logarithms">
+<dest><list size="3">
+<ref id="265" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>361</pageno>
+</outline>
+<outline level="1" title="Chapter 10: Key Management and the Public-Key Revolution">
+<dest><list size="3">
+<ref id="612" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>379</pageno>
+</outline>
+<outline level="1" title="Chapter 11: Public-Key Encryption">
+<dest><list size="3">
+<ref id="890" />
+<literal>FitH</literal>
+<number>671</number>
+</list></dest>
+<pageno>395</pageno>
+</outline>
+<outline level="1" title="Chapter 12: Digital Signature Schemes">
+<dest><list size="3">
+<ref id="1894" />
+<literal>FitH</literal>
+<number>671</number>
+</list></dest>
+<pageno>459</pageno>
+</outline>
+<outline level="1" title="Chapter 13: Advanced Topics in Public-Key Encryption">
+<dest><list size="3">
+<ref id="593" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>507</pageno>
+</outline>
+<outline level="1" title="Index of Common Notation">
+<dest><list size="3">
+<ref id="1452" />
+<literal>FitH</literal>
+<number>639</number>
+</list></dest>
+<pageno>553</pageno>
+</outline>
+<outline level="1" title="Appendix A: Mathematical Background">
+<dest><list size="3">
+<ref id="1521" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>557</pageno>
+</outline>
+<outline level="1" title="Appendix B: Basic Algorithmic Number Theory">
+<dest><list size="3">
+<ref id="1683" />
+<literal>FitH</literal>
+<number>670</number>
+</list></dest>
+<pageno>567</pageno>
+</outline>
+<outline level="1" title="References">
+<dest><list size="3">
+<ref id="1967" />
+<literal>FitH</literal>
+<number>639</number>
+</list></dest>
+<pageno>583</pageno>
+</outline>
+<outline level="1" title="Back Cover">
+<dest><list size="3">
+<ref id="140" />
+<literal>FitH</literal>
+<number>709</number>
+</list></dest>
+<pageno>597</pageno>
+</outline>
+</outlines>
