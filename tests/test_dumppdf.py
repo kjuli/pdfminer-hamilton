@@ -1,4 +1,5 @@
 import os.path
+import sys
 import unittest
 import io
 
@@ -115,6 +116,27 @@ class TestChapterCreation(unittest.TestCase):
             for outputfile in outputfiles:
                 actualFile = os.path.join(outputdirectory, outputfile)
                 self.assertTrue(actualFile)
+
+    def test_dumpchapters_no_outline(self):
+        samplenooutlinefile = "samples/test_samples/jpg2pdf.pdf"
+        expected = "Currently, this feature only works if the PDF has an outline\n"
+        dc = dumpchapters(level=1)  # Extractor method
+        capturedoutput = io.StringIO()
+        sys.stdout = capturedoutput
+        dc(None, samplenooutlinefile, None, None, None)
+        sys.stdout = sys.__stdout__
+        self.assertEqual(capturedoutput.getvalue(), expected)
+
+    def test_level_zero(self):
+        dc = dumpchapters(level=0)  # Extractor method
+        for (file, outputdirectory, outputfiles) in sampleoutlinetuples:
+            outputdirectory = os.path.join(outputdirectory, "no_outline")
+            dc(None, file, None, None, extractdir=outputdirectory)
+
+            self.assertTrue(os.path.exists(outputdirectory))
+            directory = os.listdir(outputdirectory)
+
+            self.assertEqual(len(directory), 0)
 
 
 if __name__ == "__main__":
