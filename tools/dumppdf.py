@@ -18,7 +18,7 @@ from pdfminer.converter import TextConverter
 from io import StringIO
 import os.path
 import sys
-from memory_profiler import profile
+from memory_profiler import profile  # noqa: F401 add @profile for memory_profiler
 
 ESCAPE = set(map(ord, '&<>"'))
 
