@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-from concurrent.futures import process
 import re
 import logging
 from io import BytesIO
@@ -875,7 +874,6 @@ class PDFPageInterpreter:
         self.device.end_page(page)
         return
 
-    @profile
     def process_page_font(self, page):
         if self.debug:
             logging.info("Processing page: %r" % page)

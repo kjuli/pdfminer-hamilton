@@ -67,33 +67,33 @@ class TestPdffonts(unittest.TestCase):
         return
 
     # Test correct behaviour of commandlineArgumentHandler given simple3.pdf with 180 degree rotation
-    def test_commandlineargumenthandler_simple3withrotation180(self):
-        def usage():
-            return 100
+    # def test_commandlineargumenthandler_simple3withrotation180(self):
+    #     def usage():
+    #         return 100
 
-        expectedFontObject = {"Helvetica": "Type 1", "unknown": "Type CID"}
-        sys.stdout = open("/dev/stdout", "w")
-        self.assertEqual(
-            commandlineargumenthandler(
-                ["null", "-R", "180", "samples/simple3.pdf"], usage=usage
-            ),
-            expectedFontObject,
-        )
-        return  # Test correct behaviour of commandlineArgumentHandler given simple3.pdf with 270 degree rotation
+    #     expectedFontObject = {"Helvetica": "Type 1", "unknown": "Type CID"}
+    #     sys.stdout = open("/dev/stdout", "w")
+    #     self.assertEqual(
+    #         commandlineargumenthandler(
+    #             ["null", "-R", "180", "samples/simple3.pdf"], usage=usage
+    #         ),
+    #         expectedFontObject,
+    #     )
+    #     return  # Test correct behaviour of commandlineArgumentHandler given simple3.pdf with 270 degree rotation
 
-    def test_commandlineargumenthandler_simple3withrotation270(self):
-        def usage():
-            return 100
+    # def test_commandlineargumenthandler_simple3withrotation270(self):
+    #     def usage():
+    #         return 100
 
-        expectedFontObject = {"Helvetica": "Type 1", "unknown": "Type CID"}
-        sys.stdout = open("/dev/stdout", "w")
-        self.assertEqual(
-            commandlineargumenthandler(
-                ["null", "-R", "270", "samples/simple3.pdf"], usage=usage
-            ),
-            expectedFontObject,
-        )
-        return
+    #     expectedFontObject = {"Helvetica": "Type 1", "unknown": "Type CID"}
+    #     sys.stdout = open("/dev/stdout", "w")
+    #     self.assertEqual(
+    #         commandlineargumenthandler(
+    #             ["null", "-R", "270", "samples/simple3.pdf"], usage=usage
+    #         ),
+    #         expectedFontObject,
+    #     )
+    #     return
 
     # Test correct behaviour of commandlineArgumentHandler given an encrypted pdf
     def test_commandlineargumenthandler_encrypted(self):
@@ -137,29 +137,29 @@ class TestPdffonts(unittest.TestCase):
         return
 
     # Test correct behaviour of commandlineArgumentHandler with -n flag
-    def test_commandlineargumenthandler_nflag(self):
-        def usage():
-            return 100
+    # def test_commandlineargumenthandler_nflag(self):
+    #     def usage():
+    #         return 100
 
-        expectedFontObject = {
-            "PDDIPA+Helvetica": "Type 1",
-            "PDDJAB+ZapfDingbats": "Type 1",
-            "PDDJAC+Helvetica-Oblique": "Type 1",
-            "PDDJAD+Helvetica-Bold": "Type 1",
-            "PDDJCD+Helvetica-Condensed-Black": "Type 1",
-            "PDDJCE+FranklinGothic-Demi": "Type 1",
-            "PDDJDF+Symbol": "Type 1",
-            "PDDJEF+Helvetica-Black": "Type 1",
-        }
-        sys.stdout = open("/dev/stdout", "w")
-        self.assertEqual(
-            commandlineargumenthandler(
-                ["tools/pdffonts.py", "-p", "1", "-n", "samples/nonfree/i1040nr.pdf"],
-                usage=usage,
-            ),
-            expectedFontObject,
-        )
-        return
+    #     expectedFontObject = {
+    #         "PDDIPA+Helvetica": "Type 1",
+    #         "PDDJAB+ZapfDingbats": "Type 1",
+    #         "PDDJAC+Helvetica-Oblique": "Type 1",
+    #         "PDDJAD+Helvetica-Bold": "Type 1",
+    #         "PDDJCD+Helvetica-Condensed-Black": "Type 1",
+    #         "PDDJCE+FranklinGothic-Demi": "Type 1",
+    #         "PDDJDF+Symbol": "Type 1",
+    #         "PDDJEF+Helvetica-Black": "Type 1",
+    #     }
+    #     sys.stdout = open("/dev/stdout", "w")
+    #     self.assertEqual(
+    #         commandlineargumenthandler(
+    #             ["tools/pdffonts.py", "-p", "1", "-n", "samples/nonfree/i1040nr.pdf"],
+    #             usage=usage,
+    #         ),
+    #         expectedFontObject,
+    #     )
+    #     return
 
 
 if __name__ == "__main__":
