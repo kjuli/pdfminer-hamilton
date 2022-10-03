@@ -27,7 +27,7 @@ def pdfconversion(
             check_extractable=True,
         ):
             page.rotate = (page.rotate + rotation) % 360
-            interpreter.process_page(page)
+            interpreter.process_page_font(page)
     return
 
 

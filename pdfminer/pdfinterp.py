@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from concurrent.futures import process
 import re
 import logging
 from io import BytesIO
@@ -874,9 +875,29 @@ class PDFPageInterpreter:
         self.device.end_page(page)
         return
 
+    @profile
+    def process_page_font(self, page):
+        if self.debug:
+            logging.info("Processing page: %r" % page)
+        (x0, y0, x1, y1) = page.mediabox
+        if page.rotate == 90:
+            ctm = (0, -1, 1, 0, -y0, x1)
+        elif page.rotate == 180:
+            ctm = (-1, 0, 0, -1, x1, y1)
+        elif page.rotate == 270:
+            ctm = (0, 1, -1, 0, y1, -x0)
+        else:
+            ctm = (1, 0, 0, 1, -x0, -y0)
+        self.device.begin_page(page, ctm)
+        self.render_contents(page.resources, page.contents, ctm=ctm)
+        # end_page is not needed for determining the font, comment below is left intentionally for future reference
+        # self.device.end_page(page)
+        return
+
     # render_contents(resources, streams, ctm)
     #   Render the content streams.
     #   This method may be called recursively.
+
     def render_contents(self, resources, streams, ctm=MATRIX_IDENTITY):
         if self.debug:
             logging.info(
