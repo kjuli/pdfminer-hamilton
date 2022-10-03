@@ -133,7 +133,7 @@ def commandlineargumenthandler(argv, usage):
         print(unicode.ljust(10), end="")
         print(encoding)
 
-    outfp.close()
+    # outfp.close()
     device.close()
     return fontobject
 
