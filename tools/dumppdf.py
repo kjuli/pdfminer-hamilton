@@ -6,19 +6,19 @@
 #  options:
 #    -i objid : object id
 #
-import sys
-import os.path
-from io import StringIO
-
-from pdfminer.converter import TextConverter
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.psparser import PSKeyword, PSLiteral, LIT
-from pdfminer.pdfparser import PDFParser
-from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
-from pdfminer.pdftypes import PDFObjectNotFound, PDFValueError
-from pdfminer.pdftypes import PDFStream, PDFObjRef, resolve1, stream_value
-from pdfminer.pdfpage import PDFPage
 from pdfminer.utils import isnumber, q
+from pdfminer.pdfpage import PDFPage
+from pdfminer.pdftypes import PDFStream, PDFObjRef, resolve1, stream_value
+from pdfminer.pdftypes import PDFObjectNotFound, PDFValueError
+from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
+from pdfminer.pdfparser import PDFParser
+from pdfminer.psparser import PSKeyword, PSLiteral, LIT
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.converter import TextConverter
+from io import StringIO
+import os.path
+import sys
+from memory_profiler import profile  # noqa: F401 add @profile for memory_profiler
 
 ESCAPE = set(map(ord, '&<>"'))
 
@@ -324,7 +324,7 @@ def dumpchapters(level=-1):
     :returns: A callable procedure handling the interpretation of each page into separate text files
                 per chapter (according to level).
     """
-
+    # @profile
     def dump(outfp,
              fname,
              objids,
@@ -370,6 +370,7 @@ def dumpchapters(level=-1):
                             password=password,
                             caching=True,
                             check_extractable=True,
+                            parsed_doc=document
                         )
 
                         for page in pdfpages:

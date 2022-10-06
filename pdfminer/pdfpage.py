@@ -124,11 +124,16 @@ class PDFPage:
         password=b"",
         caching=True,
         check_extractable=True,
+        parsed_doc=None
     ):
-        # Create a PDF parser object associated with the file object.
-        parser = PDFParser(fp)
-        # Create a PDF document object that stores the document structure.
-        doc = PDFDocument(parser, password=password, caching=caching)
+        # If a parsed document is passed on, use that instead
+        if (parsed_doc):
+            doc = parsed_doc
+        else:
+            # Create a PDF parser object associated with the file object.
+            parser = PDFParser(fp)
+            # Create a PDF document object that stores the document structure.
+            doc = PDFDocument(parser, password=password, caching=caching)
         # Check if the document allows text extraction. If not, abort.
         if check_extractable and not doc.is_extractable:
             raise PDFTextExtractionNotAllowed("Text extraction is not allowed: %r" % fp)

@@ -1,3 +1,4 @@
+memory_profiler==0.60.0
 Pillow==9.2.0
 pycryptodome==3.15.0
 pygame==2.1.2
