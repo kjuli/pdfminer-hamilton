@@ -27,7 +27,7 @@ def pdfconversion(
             check_extractable=True,
         ):
             page.rotate = (page.rotate + rotation) % 360
-            interpreter.process_page(page)
+            interpreter.process_page_font(page)
     return
 
 
@@ -133,7 +133,7 @@ def commandlineargumenthandler(argv, usage):
         print(unicode.ljust(10), end="")
         print(encoding)
 
-    outfp.close()
+    # outfp.close()
     device.close()
     return fontobject
 
